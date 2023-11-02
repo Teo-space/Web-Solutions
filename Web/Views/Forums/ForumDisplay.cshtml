@@ -1,0 +1,35 @@
+﻿@model Result<Forum>
+@{  ViewData["Title"] = "Forum";    }
+
+@if (!Model.Success)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Model.Type</p>
+        <p>@Model.Detail</p>
+    </div>
+}
+else
+{
+    var Forum = Model.Value;
+    var Permissions = Forum.GetForumPermissions(this.User);
+
+    if (Forum.Deleted && !Permissions.CanDelete)
+    {
+        <div class="alert alert-danger" role="alert">
+            Forum is Deleted!
+        </div>
+    }
+    else
+    {
+        <div class="text-white  text-nowrap overflow-hidden">
+            <partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@Model" />
+            <partial name="~/Views/Partials/ForumPartialAdminPanel.cshtml" model="@Model" />
+            <partial name="~/Views/Partials/ForumPartialForums.cshtml" model="@Model" />
+            <partial name="~/Views/Partials/ForumPartialAnnouncements.cshtml" model="@Model" />
+            <partial name="~/Views/Partials/ForumPartialTopics.cshtml" model="@Model" />
+            <partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@Model" />
+            <partial name="~/Views/Partials/ForumPartialPermissions.cshtml" model="@Model" />
+        </div>
+    }
+
+}

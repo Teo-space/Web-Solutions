@@ -1,0 +1,51 @@
+﻿@using Web.Forums.UseCases.Forums.WriteModel;
+@model CommandForumEdit
+
+@{
+	ViewData["Title"] = "Edit Forum ";
+
+	Result<Forum> ForumResult = ViewBag.ForumResult;
+}
+@if (!ForumResult.Success)
+{
+	<div class="alert alert-danger" role="alert">
+		<p>@ForumResult.Type</p>
+		<p>@ForumResult.Detail</p>
+	</div>
+}
+else
+{
+	var Forum = @ForumResult.Value;
+	<partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@ForumResult" />
+
+	ViewData["Title"] = $"Edit Forum {Forum.Title}";
+
+}
+
+
+<form method="post" asp-asp-controller="Forums" asp-action="ForumEditPost" asp-antiforgery="true">
+	<div class="form-group m-2">
+		<input type="text" class="form-control" asp-for="@Model.ForumId" value="@Model.ForumId" hidden>
+		<span asp-validation-for="@Model.ForumId" class="text-danger"></span>
+	</div>
+
+	<div class="form-group m-2">
+		<label asp-for="@Model.Title" class="text-white m-1">Название</label>
+		<p><small class="text-secondary m-1">максимум 50 символов</small></p>
+		<span asp-validation-for="Title" class="text-danger"></span>
+
+		<input type="text" class="form-control" asp-for="@Model.Title" value="@(@Model.Title ?? "")">
+	</div>
+
+	<div class="form-group m-2">
+		<label asp-for="@Model.Description" class="text-white m-1">Описание</label>
+		<p><small class="text-secondary m-1">максимум 100 символов</small></p>
+		<span asp-validation-for="@Model.Description" class="text-danger"></span>
+		<input type="text" class="form-control" asp-for="@Model.Description" value="@(@Model.Description ?? "")">
+	</div>
+	<div class="form-group m-2 mt-4">
+		<input type="submit" class="btn btn-outline-secondary" value="Сохранить" />
+	</div>
+
+</form>
+

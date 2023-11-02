@@ -1,0 +1,96 @@
+﻿@model Result<Forum>
+
+@if (Model.Success)
+{
+    var Forum = Model.Value;
+    var Permissions = Forum.GetForumPermissions(this.User);
+
+
+    @if (Model.Value.Topics.Any())
+    {
+        <partial name="~/Views/Partials/ForumPartialPath.cshtml" />
+        <partial name="~/Views/Partials/ForumPagination.cshtml" />
+
+
+        @if (Permissions.CanCreateTopic)
+        {
+            <div class="d-flex  flex-row-reverse   mb-3 mt-3">
+                <div class="m-2">
+                    <a class="text-muted btn btn-outline-dark btn-sm rounded-3 bg-gradient"
+                       asp-controller="Topics"
+                       asp-action="TopicCreate"
+                       asp-route-ForumId="@Forum.ForumId">
+                        <i class="bi bi-envelope-fill text-info "></i>
+                        Создать топик в этом разделе
+                    </a>
+                </div>
+            </div>
+        }
+
+
+        <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
+            <thead>
+                <tr class="text-white">
+                    <th scope="col" colspan="4"><p class="p-2">Topics of @Model.Value.Title</p></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var topic in Model.Value.Topics)
+                {
+                    <tr>
+                        <th scope="row" class="align-content-center justify-content-center">
+                            <div class="pt-2">
+                                <a class="nav-link text-muted h6 pb-0"
+                                   asp-controller="Topics"
+                                   asp-action="TopicDisplay"
+                                   asp-route-TopicId="@topic.TopicId">
+                                    <i class="bi bi-envelope-fill text-muted "></i>
+                                </a>
+                            </div>
+                        </th>
+                        <td>
+                            <a class="nav-link text-muted h6 pb-0"
+                               asp-controller="Topics"
+                               asp-action="TopicDisplay"
+                               asp-route-TopicId="@topic.TopicId">
+                                @topic.Title
+                                @if (@topic.Deleted)
+                                {
+                                    <i class="bi bi-trash-fill  text-danger"></i>
+                                }
+                            </a>
+                        </td>
+                        <td>
+                            <small>
+                                <a class="nav-link text-primary" href="#">
+                                    <small class="text-secondary">created by</small>
+                                    @topic.CreatedBy.UserName
+                                    <small class="text-secondary">at</small>
+                                    <small class="text-secondary">@topic.CreatedBy.At</small>
+                                </a>
+                            </small>
+                        </td>
+                        <td>
+                            <div class="pe-1">
+                                <div class="row text-muted text-center">
+                                    <small class="text-center">Views</small>
+                                </div>
+                                <div class="row text-muted">
+                                    <h5 class="text-center text-center">@topic.Views</h5>
+                                </div>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+        <partial name="~/Views/Partials/ForumPagination.cshtml" />
+    }
+
+}

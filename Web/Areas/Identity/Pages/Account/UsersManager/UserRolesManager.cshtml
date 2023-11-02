@@ -1,0 +1,85 @@
+﻿@page
+@model UserRolesManager
+
+
+@Model.UserName
+@Model.Email
+
+
+
+@if (Model.RolesChanged)
+{
+    <div class="alert alert-danger d-flex align-items-center m-3 p-3" role="alert">
+
+        <i class="oi-excerpt"></i>
+
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill" />
+        </svg>
+        <div>
+            Пользователь должен перезайти чтобы изменения вступили в силу!!!
+        </div>
+    </div>
+}
+
+
+
+@if (Model.UserRoles.Any())
+{
+    <form method="post">
+        <input type="hidden" asp-for="@Model.UserId" />
+        <input type="hidden" asp-for="@Model.UserName" />
+        <input type="hidden" asp-for="@Model.Email" />
+
+
+        <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">InRole</th>
+                </tr>
+            </thead>
+            @{
+                int Counter = 0;
+            }
+            <tbody>
+                @for (var index = 0; index < @Model.UserRoles.Count(); index++)
+                {
+                    <tr>
+                        <th scope="row">@(Counter++)</th>
+                        <td>@Model.UserRoles[index].Id</td>
+                        <td>@Model.UserRoles[index].Name</td>
+                        <td>
+                            <input type="hidden" asp-for="@Model.UserRoles[index].Id" />
+                            <input type="hidden" asp-for="@Model.UserRoles[index].Name" />
+                            <input type="checkbox" asp-for="@Model.UserRoles[index].InRole" class="form-check-input" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div>
+            <button type="submit" class="btn btn-secondary">Update</button>
+        </div>
+    </form>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

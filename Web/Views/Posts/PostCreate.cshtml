@@ -1,0 +1,49 @@
+﻿@model Result<Topic>
+
+@{
+    ViewData["Title"] = $"PostCreate {Model.Value?.Title}";
+}
+
+
+@if (!Model.Success)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Model.Type</p>
+        <p>@Model.Detail</p>
+    </div>
+}
+else
+{
+    var Topic = Model.Value;
+    var Forum = Topic.Forum;
+
+    <partial name="~/Views/Partials/ForumPartialPath.cshtml" model="Result.Ok(Topic.Forum)" />
+    <partial name="~/Views/Partials/TopicPartialAdminPanel.cshtml" model="@Model" />
+
+
+
+    <div class="mt-3 pt-5">
+        <form method="post" asp-asp-controller="Topics" asp-action="TopicPostCreatePost" asp-antiforgery="true">
+            <div class="form-group m-2">
+                <input type="text" class="form-control" asp-for="@Topic.TopicId" value="@Topic.TopicId" hidden>
+                <span asp-validation-for="@Topic.TopicId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group m-2">
+                <span asp-validation-for="@Topic.Text" class="text-danger"></span>
+                <textarea asp-for="@Topic.Text" type="text" rows="10" class="form-control bg-secondary text-dark">
+                    @* <markdown></markdown> *@
+                    @(Topic?.Text ?? "")
+                </textarea>
+            </div>
+            <div class="form-group m-2 mt-4">
+                <input type="submit" class="btn btn-outline-secondary" value="Ответить" />
+            </div>
+
+        </form>
+    </div>
+
+
+
+
+}

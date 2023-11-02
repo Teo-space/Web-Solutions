@@ -1,0 +1,17 @@
+﻿@page
+@attribute [IgnoreAntiforgeryToken]
+@inject SignInManager SignInManager
+
+
+@functions 
+{
+    public async Task<IActionResult> OnPost()
+    {
+        if (SignInManager.IsSignedIn(User))
+        {
+            await SignInManager.SignOutAsync();
+        }
+
+        return Redirect("~/");
+    }
+}

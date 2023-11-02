@@ -1,0 +1,84 @@
+﻿@model Forum
+@{
+    ViewData["Title"] = "Forums";
+}
+
+
+
+
+<div class="bg-white bg-gradient rounded-4">
+    <div class="bg-white bg-gradient rounded-4">
+        <div class="flex-row m-2 p-1">
+
+            @foreach (var forum in Model.Forums)
+            {
+                //var forumViewModel = forum.Adapt<ForumViewModel>();
+                var forumData = forum.Adapt<Dictionary<string, string>>();
+
+                <div class="d-flex">
+                    <div>
+                        <a class="nav-link text-primary" 
+                            asp-controller="Forums"
+                            asp-action="Forum"
+                            asp-route-ObjectId="@forum.ObjectId">
+                            <div class="h6">
+                                <i class="bi bi-card-list text-black  pt-2"></i>
+                                @forum.Title
+                            </div>
+                        </a>
+
+                        <div class="ps-3 pe-2 pb-1">
+                            <small class="text-muted">
+                                @forum.Description
+                            </small>
+                        </div>
+                        @*
+                    <small>
+                    <a class="nav-link text-primary" href="#">
+                    <small class="text-secondary">By</small>
+                    @topic.LastReplied_UserName
+                    <small class="text-secondary">at</small>
+                    <small class="text-secondary">@topic.LastReplied</small>
+                    </a>
+                    </small>
+                    *@
+                    </div>
+
+                    @*Edit*@
+                    @*
+                <div class="ms-auto p-2">
+                <a class="link-info" target="_blank" asp-page="@(Page<ForumEditModel>())" asp-all-route-data="@forumData">
+                <i class="bi bi-pencil-square fa-1x text-muted text-secondary"></i>
+                </a>
+                </div>
+                *@
+                    @*Delete*@
+                    @*
+                <div class="ms-auto p-2">
+                <a class="link-info" target="_blank" asp-page="@(Page<ForumDeleteModel>())" asp-route-ForumId="@forum.ForumId">
+                <i class="bi bi-file-excel fa-1x text-muted text-secondary"></i>
+                </a>
+                </div>
+                *@
+
+                    <div class="ms-auto p-2">
+                        <div class="row text-muted">
+                            <h5 class="text-center text-center">142</h5>
+                        </div>
+                        <div class="row text-muted text-center">
+                            <small class="text-center">Topics</small>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

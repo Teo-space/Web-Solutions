@@ -1,0 +1,53 @@
+﻿@using Web.Forums.UseCases.Announcements.WriteModel
+@model CommandAnnouncementEdit
+@{
+	ViewData["Title"] = $"Announcement Edit {Model.Title}";
+	Result<Announcement> AnnouncementResult = ViewBag.AnnouncementResult;
+}
+
+@if (!AnnouncementResult.Success)
+{
+	<div class="alert alert-danger" role="alert">
+		<p>@AnnouncementResult.Type</p>
+		<p>@AnnouncementResult.Detail</p>
+	</div>
+}
+else
+{
+	var Announcement = @AnnouncementResult.Value;
+	var Forum = @Announcement.Forum;
+
+	<partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@Result.Ok(Forum)" />
+
+
+	<form method="post" asp-asp-controller="Announcements" asp-action="AnnouncementEditPost" asp-antiforgery="true">
+		<div class="form-group m-2">
+			<input type="text" class="form-control" asp-for="@Model.AnnouncementId" value="@Model.AnnouncementId" hidden>
+			<span asp-validation-for="@Model.AnnouncementId" class="text-danger"></span>
+		</div>
+
+		<div class="form-group m-2">
+			<label asp-for="@Model.Title" class="text-white m-1">Название</label>
+			<p><small class="text-secondary m-1">максимум 50 символов</small></p>
+			<span asp-validation-for="Title" class="text-danger"></span>
+
+			<input type="text" class="form-control" asp-for="@Model.Title" value="@(@Model.Title ?? "")">
+		</div>
+
+		<div class="form-group m-2">
+			<label asp-for="@Model.Text" class="text-white m-1">Содержание</label>
+			<p><small class="text-secondary m-1">максимум 100 символов</small></p>
+			<span asp-validation-for="@Model.Text" class="text-danger"></span>
+			<textarea type="text" class="form-control" asp-for="@Model.Text">
+				@* <markdown></markdown> *@
+				@(@Model?.Text ?? "")
+			</textarea>
+		</div>
+		<div class="form-group m-2 mt-4">
+			<input type="submit" class="btn btn-outline-secondary" value="Сохранить" />
+		</div>
+
+	</form>
+
+}
+

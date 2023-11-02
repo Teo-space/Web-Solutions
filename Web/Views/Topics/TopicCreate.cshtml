@@ -1,0 +1,53 @@
+﻿@using Web.Forums.UseCases.Topics.WriteModel;
+
+@model CommandTopicCreate
+
+@{
+	ViewData["Title"] = $"Topic Create {Model.Title}";
+	Result<Forum> ParentForumResult = ViewBag.ParentForumResult;
+}
+
+@if (!ParentForumResult.Success)
+{
+	<div class="alert alert-danger" role="alert">
+		<p>@ParentForumResult.Type</p>
+		<p>@ParentForumResult.Detail</p>
+	</div>
+}
+else
+{
+	var ParentForum = @ParentForumResult.Value;
+	<partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@ParentForumResult" />
+
+
+	<form method="post" asp-asp-controller="Topics" asp-action="TopicCreatePost" asp-antiforgery="true">
+		<div class="form-group m-2">
+			<input type="text" class="form-control" asp-for="@Model.ForumId" value="@Model.ForumId" hidden>
+			<span asp-validation-for="@Model.ForumId" class="text-danger"></span>
+		</div>
+
+		<div class="form-group m-2">
+			<label asp-for="@Model.Title" class="text-white m-1">Название</label>
+			<p><small class="text-secondary m-1">максимум 50 символов</small></p>
+			<span asp-validation-for="Title" class="text-danger"></span>
+
+			<input type="text" class="form-control" asp-for="@Model.Title" value="@(@Model.Title ?? "")">
+		</div>
+
+		<div class="form-group m-2">
+			<label asp-for="@Model.Text" class="text-white m-1">Содержание</label>
+			<p><small class="text-secondary m-1">максимум 100 символов</small></p>
+			<span asp-validation-for="@Model.Text" class="text-danger"></span>
+			<textarea type="text" rows="10" class="form-control" asp-for="@Model.Text">
+				@* <markdown></markdown> *@
+				@(@Model?.Text ?? "")
+			</textarea>
+		</div>
+		<div class="form-group m-2 mt-4">
+			<input type="submit" class="btn btn-outline-secondary" value="Создать" />
+		</div>
+
+	</form>
+
+}
+

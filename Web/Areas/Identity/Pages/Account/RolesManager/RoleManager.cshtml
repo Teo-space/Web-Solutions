@@ -1,0 +1,59 @@
+﻿@page
+@model RoleManagerModel
+@{
+}
+
+
+<div class="">
+    <form id="CreateRole" asp-page-handler="CreateRole" method="post">
+        <div class="input-group mb-3">
+            <label class="input-group-text" asp-for="RoleName">Role</label>
+            <input asp-for="RoleName" class="form-control" aria-required="true" placeholder="Basic" />
+            <button type="submit" class="btn btn-secondary">Add</button>
+        </div>
+    </form>
+</div>
+
+
+
+@if (Model.Roles.Any())
+{
+    <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        @{
+            int Counter = 0;
+        }
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <th scope="row">@(Counter++)</th>
+                    <td>@role.Id</td>
+                    <td>@role.Name</td>
+                    <td>
+                        <form  asp-page-handler="Delete" method="post">
+                            <input asp-for="DeleteRoleId" value="@role.Id" class="form-control" hidden />
+                            <button type="submit" class="btn btn-link">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+
+
+
+
+
+
+

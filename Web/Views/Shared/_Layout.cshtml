@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" href="/logo.png">
+
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="css/Colors.css" asp-append-version="true" />
+    <link rel="stylesheet" href="css/Size.css" asp-append-version="true" />
+    <link rel="stylesheet" href="css/TextStyles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="css/bootstrap/bootstrap-icons.css" asp-append-version="true" />
+    <link rel="stylesheet" href="css/open-iconic/font/css/open-iconic-bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" asp-append-version="true" />
+
+
+</head>
+
+
+<body class="bg-light bg-dark">
+
+    <mini-profiler />
+
+
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm
+            navbar-dark
+            bg-gradient bg-dark
+            -border-bottom box-shadow mb-3  ">
+            <div class="container-fluid">
+
+                <div class="row justify-content-start pt-1 pb-1 ps-3 pe-4 me-4">
+                    <a class="navbar-brand  col m-0 p-0" asp-page="/Index">
+                        <img src="/logo.png" width=32 height=32 class="d-inline-block align-top m-0 p-0" alt="">
+                    </a>
+                </div>
+
+                <a class="navbar-brand me-5" href="~/">Iteo.space</a>
+
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between ms-5 me-5">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @*
+                        <li class="nav-item">
+                        <a class="nav-link navbar-text" href="/Test">
+                        <i class="bi bi-braces-asterisk"></i>
+                        Test
+                        </a>
+                        </li>
+                        *@
+                        @*
+                        <li class="nav-item">
+                        <a class="nav-link navbar-text" href="/Chat">
+                        <i class="bi bi-chat-square-text-fill"></i>
+                        Chat
+                        </a>
+                        </li>
+                        *@
+                        @*
+                        <li class="nav-item">
+                        <a class="nav-link navbar-text" asp-area="Forums" asp-page="/Forums">
+                        <i class="bi bi-chat-right-text-fill"></i>
+                        Forums
+                        </a>
+                        </li>
+                        *@
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text" asp-controller="Forums" asp-action="Index">
+                                <i class="bi bi-chat-right-text-fill"></i>
+                                Forums
+                            </a>
+                        </li>
+                        @*
+                        <li class="nav-item">
+                        <a class="nav-link navbar-text" asp-area="Wiki" asp-page="/Wiki">
+                        <i class="bi bi-book-fill"></i>
+                        Wiki
+                        </a>
+                        </li>
+                        *@
+                        @*
+                        <li class="nav-item">
+                        <a class="nav-link navbar-text" asp-area="HelpDesk" asp-page="/HelpDesk">
+                        <i class="bi bi-life-preserver"></i>
+                        HelpDesk
+                        </a>
+                        </li>
+                        *@
+
+
+                    </ul>
+
+
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text"
+                               asp-area="Identity"
+                               asp-page="/Account/UsersManager/UsersManager">
+                                <i class="bi bi-person-vcard"></i>
+                                Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text"
+                               asp-area="Identity"
+                               asp-page="/Account/RolesManager/RoleManager">
+                                <i class="bi bi-person-fill-lock"></i>
+                                Roles
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text"
+                               asp-area="Initialize"
+                               asp-page="/Initialize">
+                                <i class="bi bi-database-fill-gear"></i>
+                                Initializer
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div>
+                        <partial name="_LoginPartial" />
+                    </div>
+
+                </div>
+
+
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Scripts.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

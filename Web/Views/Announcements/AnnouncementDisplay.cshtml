@@ -1,0 +1,64 @@
+﻿@model Result<Announcement>
+@{  ViewData["Title"] = $"Announcement {Model.Value?.Title}";    }
+
+
+@if (!Model.Success)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Model.Type</p>
+        <p>@Model.Detail</p>
+    </div>
+}
+else
+{
+    var Announcement = Model.Value;
+    var AnnouncementForumResult = Result.Ok(Announcement.Forum);
+
+
+
+    <partial name="~/Views/Partials/ForumPartialPath.cshtml" model="AnnouncementForumResult" />
+    <partial name="~/Views/Partials/AnnouncementPartialAdminPanel.cshtml" model="@Model" />
+
+
+
+    <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden table-responsive-sm">
+        <thead class="text-nowrap overflow-hidden">
+            <tr>
+                <th scope="col" colspan="2" class="w-25 p-3">
+                    @Announcement.Title
+                    @if (@Announcement.Deleted)
+                    {
+                        <i class="bi bi-trash-fill  text-danger"></i>
+                    }
+                </th>
+            </tr>
+        </thead>
+        <tbody class="align-content-center justify-content-center table-responsive-sm">
+            <tr class="m-1 p-2">
+                <th scope="row" class="col-1 align-middle text-center small">
+                    @Announcement.CreatedBy.At.ToShortDateString()
+                </th>
+                <td class="col-11 align-content-center justify-content-center">
+                </td>
+            </tr>
+
+            <tr class="m-1 p-2">
+                <th scope="row" class="col-1 align-content-center justify-content-center align-middle text-center">
+
+                    <div><img src="https://forums.goha.ru/cdn/forum/userpic/avatar1026173_4.gif" /></div>
+                    <div><small>@Announcement.CreatedBy.UserName</small></div>
+                    <div><small>@Announcement.CreatedBy.At.ToShortDateString()</small></div>
+
+                </th>
+                <td class="col-11 align-content-center justify-content-center">
+                    <div>@Announcement.Text</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@AnnouncementForumResult" />
+
+}
+

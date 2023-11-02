@@ -1,0 +1,56 @@
+﻿@model Result<Forum>
+
+@if (Model.Success)
+{
+	var Forum = Model.Value;
+	var Permissions = Forum.GetForumPermissions(this.User);
+
+
+    <div class="accordion accordion-flush"
+         id="accordionFlushExample">
+        <div class="accordion-item bg-dark bg-gradient">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed bg-dark bg-gradient text-secondary border border-1 border-secondary  rounded-bottom"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseOne">
+                    Ваши права в разделе:
+                </button>
+            </h2>
+            <div class="accordion-collapse collapse"
+                 aria-labelledby="flush-headingOne"
+                 data-bs-parent="#accordionFlushExample"
+                 id="flush-collapseOne">
+
+                <div class="accordion-body text-secondary">
+                    <div class="row">
+                        <div class="col">
+                            <h6>Administrator: @Permissions.IsAdmin</h6>
+                            <h6>Curator: @Permissions.IsCurator</h6>
+                            <h6>ParentCurator: @Permissions.IsParentCurator</h6>
+                            <h6>Moderator: @Permissions.IsModerator</h6>
+                            <h6>Author: @Permissions.IsAuthor</h6>
+
+                        </div>
+                        <div class="col">
+                            <h6>CanCreateForum: @Permissions.CanCreateForum</h6>
+                            <h6>CanCreateAnnouncement: @Permissions.CanCreateAnnouncement</h6>
+                            <h6>CanCreateTopic: @Permissions.CanCreateTopic</h6>
+                            <h6>CanEdit: @Permissions.CanEdit</h6>
+                            <h6>CanDelete: @Permissions.CanDelete</h6>
+                            <h6>CanClose: @Permissions.CanClose</h6>
+                            <h6>CanChangePrivilegedUsers: @Permissions.CanChangePrivilegedUsers</h6>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+}

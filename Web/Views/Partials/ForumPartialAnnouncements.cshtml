@@ -1,0 +1,90 @@
+﻿@model Result<Forum>
+
+@if (Model.Success)
+{
+    var Forum = Model.Value;
+    var Permissions = Forum.GetForumPermissions(this.User);
+
+
+    @if (Permissions.CanCreateAnnouncement)
+    {
+        <div class="d-flex  flex-row-reverse   mb-3 mt-3">
+            <div class="m-2">
+                <a class="text-muted btn btn-outline-dark btn-sm rounded-3 bg-gradient"
+                   asp-controller="Announcements"
+                   asp-action="AnnouncementCreate"
+                   asp-route-ForumId="@Forum.ForumId">
+                    <i class="bi bi-megaphone-fill text-info "></i>
+                    Создать объявление в этом разделе
+                </a>
+            </div>
+        </div>
+    }
+
+
+    @if (Forum.Announcements.Any())
+    {
+        <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
+            <thead>
+                <tr class="text-white">
+                    <th scope="col" colspan="4"><p class="p-2">Announcements</p></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var announcement in Forum.Announcements)
+                {
+                    <tr>
+                        <th scope="row" class="align-content-center justify-content-center">
+                            <div class="pt-2">
+                                <a class="nav-link text-muted h6 pb-0"
+                                   asp-controller="Announcements"
+                                   asp-action="AnnouncementDisplay"
+                                   asp-route-AnnouncementId="@announcement.AnnouncementId">
+                                    <i class="bi bi-megaphone-fill text-muted "></i>
+                                </a>
+                            </div>
+                        </th>
+                        <td>
+                            <a class="nav-link text-muted h6 pb-0"
+                               asp-controller="Announcements"
+                               asp-action="AnnouncementDisplay"
+                               asp-route-AnnouncementId="@announcement.AnnouncementId">
+                                @announcement.Title
+                                @if (@announcement.Deleted)
+                                {
+                                    <i class="bi bi-trash-fill  text-danger"></i>
+                                }
+                            </a>
+                        </td>
+                        <td>
+                            <small>
+                                <a class="nav-link text-primary" href="#">
+                                    <small class="text-secondary">created by</small>
+                                    @announcement.CreatedBy.UserName
+                                    <small class="text-secondary">at</small>
+                                    <small class="text-secondary">@announcement.CreatedBy.At</small>
+                                </a>
+                            </small>
+                        </td>
+                        <td>
+                            <div class="pe-1">
+                                <div class="row text-muted text-center">
+                                    <small class="text-center">Views</small>
+                                </div>
+                                <div class="row text-muted">
+                                    <h5 class="text-center text-center">@announcement.Views</h5>
+                                </div>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+
+
+}

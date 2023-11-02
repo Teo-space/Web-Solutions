@@ -1,0 +1,31 @@
+﻿@model Forum
+
+@{
+    ViewData["Title"] = "Forum";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Forum</h1>
+
+</div>
+
+
+<p>@Model.ForumId</p>
+<p>@Model.Title</p>
+<p>@Model.Description</p>
+
+</hr>
+
+@foreach (var forum in @Model.Forums)
+{
+    <p>@forum.Title</p>
+    <p>@forum.Description</p>
+    <a class="nav-link navbar-text" asp-controller="Forums" asp-action="ForumDisplay" asp-route-ForumId="@forum.ForumId">
+        <i class="bi bi-chat-right-text-fill"></i>
+        Forums
+    </a>
+}
+
+
+
+

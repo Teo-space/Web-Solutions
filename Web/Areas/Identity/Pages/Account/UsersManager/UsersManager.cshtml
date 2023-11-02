@@ -1,0 +1,97 @@
+﻿@page
+@model UsersManagerModel
+
+
+
+@*
+<cache enabled="true" expires-sliding="@TimeSpan.FromSeconds(60)">
+    Current Time Inside Cache Tag Helper: @DateTime.Now
+</cache>
+
+<cache vary-by-header="User-Agent">
+    Current Time Inside Cache Tag Helper: @DateTime.Now
+</cache>*@
+
+<h2>Search</h2>
+<hr />
+
+<div class="">
+    <form id="SearchFormByUserName" asp-page-handler="ByUserName" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="input-group mb-3">
+            <span asp-validation-for="searchByNameQuery.UserName" class="text-danger"></span>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" asp-for="searchByNameQuery.UserName">UserName</label>
+            <input asp-for="searchByNameQuery.UserName" class="form-control"
+                   autocomplete="UserName" aria-required="true" placeholder="bob" />
+            
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="">
+    <form id="SearchFormByEmail" asp-page-handler="ByEmail" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="input-group mb-3">
+            <span asp-validation-for="searchByEmailQuery.Email" class="text-danger"></span>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" asp-for="searchByEmailQuery.Email">Email</label>
+            <input asp-for="searchByEmailQuery.Email" class="form-control"
+                   autocomplete="Email" aria-required="true" placeholder="name@example.com" />
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </div>
+    </form>
+</div>
+
+
+@*<p>Roles: @u.UserRoles.Select(r => r.Role.NormalizedName).Where(x => x != null).Aggregate((x, y) => $"{x}, {y}")</p>*@
+
+@if (Model.Users.Any())
+{
+    <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden" style="line-height: 0.7">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">UserName</th>
+                <th scope="col">Email</th>
+                <th scope="col">Detailing</th>
+                <th scope="col">Manage Roles</th>
+            </tr>
+        </thead>
+        @{
+            int Counter = 0;
+        }
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <th scope="row">@(Counter++)</th>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a asp-area="Identity" asp-page="UserProfile/"
+                           asp-route-UserId=@user.Id
+                           asp-route-UserName=@user.UserName
+                           asp-route-Email=@user.Email
+                           target="_blank">UserProfile</a>
+                    </td>
+
+                    <td>
+                        <a asp-area="Identity" asp-page="UserRolesManager/"
+                           asp-route-UserId=@user.Id
+                           asp-route-UserName=@user.UserName
+                           asp-route-Email=@user.Email
+                           target="_blank">UserRolesManager</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+

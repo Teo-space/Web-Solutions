@@ -1,0 +1,78 @@
+﻿@page
+@model UserProfileModel
+@{
+}
+
+<div class="row align-content-center">
+
+	<div class="col">
+		@if (@Model.UserModel != null)
+		{
+			<form class="form-group" method="post">
+
+				<div class="form-group m-2">
+					<input type="text" class="form-control"
+						   name="UserModel.UserId"
+						   id="UserModel.UserId"
+						   value=@Model.UserModel.UserId hidden>
+				</div>
+
+				<div class="form-group m-2">
+					<label for="UserModel.UserName">UserName</label>
+					<input type="text" class="form-control"
+						   name="UserModel.UserName"
+						   id="UserModel.UserName"
+						   value=@Model.UserModel.UserName disabled>
+					<span asp-validation-for="UserModel.UserName" class="text-danger"></span>
+				</div>
+
+				<div class="form-group m-2">
+					<label for="UserModel.Email">Email</label>
+					<input type="text" class="form-control"
+						   name="UserModel.Email"
+						   id="UserModel.Email"
+						   value=@Model.UserModel.Email disabled>
+
+					<span asp-validation-for="UserModel.Email" class="text-danger"></span>
+				</div>
+
+			</form>
+		}
+	</div>
+
+
+</div>
+
+
+@if (Model.UserRoles.Any())
+{
+	<div class=" m-4">
+		<h3>Roles : </h3>
+		<hr />
+
+		<table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">ID</th>
+					<th scope="col">Name</th>
+				</tr>
+			</thead>
+			@{
+				int Counter = 0;
+			}
+			<tbody>
+				@for (var index = 0; index < @Model.UserRoles.Count; index++)
+				{
+					<tr>
+						<th scope="row">@(Counter++)</th>
+						<td>@Model.UserRoles[index].Id</td>
+						<td>@Model.UserRoles[index].Name</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+
+}

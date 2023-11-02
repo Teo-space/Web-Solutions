@@ -1,0 +1,63 @@
+﻿@model Result<Announcement>
+
+@if (Model.Success)
+{
+    var Announcement = Model.Value;
+    var Permissions = Announcement.GetPermissions(this.User);
+
+
+    @if (Permissions.CanEdit || Permissions.CanDelete)
+    {
+        <div class="d-flex  border border-1 shadow border-secondary rounded-3 mb-3">
+
+            @if (Permissions.CanEdit)
+            {
+                <div class="m-2">
+                    <a class="text-muted btn btn-outline-dark btn-sm bg-gradient"
+                       asp-controller="Announcements"
+                       asp-action="AnnouncementEdit"
+                       asp-route-AnnouncementId="@Announcement.AnnouncementId"
+                       asp-route-Title="@Announcement.Title"
+                       asp-route-Text="@Announcement.Text">
+                        <i class="bi bi-file-plus-fill  text-primary"></i>
+                        Edit
+                    </a>
+                </div>
+            }
+
+            @if (Permissions.CanDelete)
+            {
+                @if (@Announcement.Deleted)
+                {
+                    <div class="m-2">
+                        <a class="text-muted btn btn-outline-dark btn-sm bg-gradient"
+                           asp-controller="Announcements"
+                           asp-action="AnnouncementUnDelete"
+                           asp-route-AnnouncementId="@Announcement.AnnouncementId"
+                           asp-route-comment="Deleted">
+                            <i class="bi bi-trash-fill  text-danger"></i>
+                            Достать из удаленных
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="m-2">
+                        <a class="text-muted btn btn-outline-dark btn-sm bg-gradient"
+                           asp-controller="Announcements"
+                           asp-action="AnnouncementDelete"
+                           asp-route-AnnouncementId="@Announcement.AnnouncementId"
+                           asp-route-comment="UnDeleted">
+                            <i class="bi bi-trash-fill  text-danger"></i>
+                            Удалить
+                        </a>
+                    </div>
+                }
+            }
+
+        </div>
+
+    }
+
+
+}

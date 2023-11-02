@@ -1,0 +1,16 @@
+﻿namespace Identity.BasicRoles
+{
+	public static class BasicRolesInitializer
+	{
+		public static void Initialize(IServiceProvider serviceProvider)
+		{
+			using (var scope = serviceProvider.CreateScope())
+			{
+				var basicRolesInitializerService = scope.ServiceProvider.GetRequiredService<IBasicRolesInitializerService>();
+				basicRolesInitializerService.Initialize().Wait();
+			}
+		}
+
+
+	}
+}

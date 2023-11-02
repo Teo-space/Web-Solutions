@@ -1,0 +1,66 @@
+﻿@model Result<Forum>
+
+@if (Model.Success && Model.Value.Topics.Any())
+{
+    var FirstTopic = Model.Value.Topics.OrderByDescending(x => x.RepliedBy.At).First();
+    var LastTopic = Model.Value.Topics.OrderByDescending(x => x.RepliedBy.At).Last();
+
+
+
+    <div class="d-flex text-white  ">
+
+        <div class="m-2 p-2 text-nowrap overflow-hidden text-muted">
+            <a class="btn btn-outline-secondary btn-sm"
+               asp-controller="Forums"
+               asp-action="ForumDisplayPreviousPage"
+               asp-route-ForumId="@Model.Value.ForumId"
+               asp-route-Replied="@FirstTopic.RepliedBy.At.ToString("yyyy-MM-dd HH:mm:ss.fff")">
+                <i class="bi bi-caret-left-fill"></i>
+                Previous
+            </a>
+
+        </div>
+        <div class="m-2 p-2 text-nowrap overflow-hidden text-muted">
+            <a class="btn btn-outline-secondary btn-sm"
+               asp-controller="Forums"
+               asp-action="ForumDisplayNextPage"
+               asp-route-ForumId="@Model.Value.ForumId"
+               asp-route-Replied="@LastTopic.RepliedBy.At.ToString("yyyy-MM-dd HH:mm:ss.fff")">
+                Next
+                <i class="bi bi-caret-right-fill"></i>
+            </a>
+        </div>
+
+        
+
+        <div class="dropdown m-2 p-2">
+            <a class="btn btn-outline-secondary btn-sm dropdown-toggle"
+               href="#" role="button" id="dropdownMenuLink" 
+                data-bs-toggle="dropdown" aria-expanded="false">
+
+                Select Page
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @for (int i = 0; i < (1000 / Forum.TopicsPageSize); i++)
+                {
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="Forums"
+                           asp-action="ForumDisplayPage"
+                           asp-route-ForumId="@Model.Value.ForumId"
+                           asp-route-Offset="@i">
+                            Page @i
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+
+
+    </div>
+
+
+
+}

@@ -1,0 +1,99 @@
+﻿@model Result<Forum>
+
+@if (Model.Success)
+{
+    var Forum = Model.Value;
+    var Permissions = Forum.GetForumPermissions(this.User);
+
+    @if (Permissions.CanCreateForum)
+    {
+        <div class="d-flex  flex-row-reverse   mb-3 mt-3">
+            <div class="m-2">
+                <a class="text-muted btn btn-outline-dark btn-sm rounded-3 bg-gradient"
+                   asp-controller="Forums"
+                   asp-action="ForumCreate"
+                   asp-route-ParentForumId="@Forum.ForumId">
+                    <i class="bi bi-chat-right-text-fill text-info "></i>
+                    Создать форум в этом разделе
+                </a>
+            </div>
+        </div>
+    }
+
+    @if (Forum.Forums.Any())
+    {
+        <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="4">
+                        <p class="p-2">Sub Forums: @Forum.Title</p>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var forum in Forum.Forums)
+                {
+                    <tr>
+                        <th scope="row" class="align-content-center justify-content-center">
+                            <div class="pt-2">
+                                <a class="nav-link text-muted h6 pb-0" asp-controller="Forums" asp-action="ForumDisplay" asp-route-ForumId="@forum.ForumId">
+                                    <i class="bi bi-chat-right-text-fill text-muted "></i>
+                                </a>
+                            </div>
+                        </th>
+                        <td>
+                            <a class="nav-link text-muted h6 pb-0" asp-controller="Forums" asp-action="ForumDisplay" asp-route-ForumId="@forum.ForumId">
+                                @if (forum.IsClosed)
+                                {
+                                    <i class="bi bi-door-closed-fill  text-warning"></i>
+                                }
+                                @if (forum.Deleted)
+                                {
+                                    <i class="bi bi-trash-fill  text-danger"></i>
+                                }
+                                
+                                @forum.Title
+                            </a>
+                            <small>
+                                <a class="nav-link text-primary" href="#">
+                                    <small class="text-secondary">created by</small>
+                                    @forum.RepliedBy.UserName
+                                    <small class="text-secondary">at</small>
+                                    <small class="text-secondary">@forum.RepliedBy.At</small>
+                                </a>
+                            </small>
+                        </td>
+                        <td>
+                            <small>
+                                <a class="nav-link text-primary" href="#">
+                                    <small class="text-secondary">By</small>
+                                    @forum.RepliedBy.UserName
+                                    <small class="text-secondary">at</small>
+                                    <small class="text-secondary">@forum.RepliedBy.At</small>
+                                </a>
+                            </small>
+                        </td>
+                        <td>
+                            <div class="pe-1">
+                                <div class="row text-muted">
+                                    <h5 class="text-center text-center">142</h5>
+                                </div>
+                                <div class="row text-muted text-center">
+                                    <small class="text-center">Topics</small>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    }
+
+    
+
+
+}
