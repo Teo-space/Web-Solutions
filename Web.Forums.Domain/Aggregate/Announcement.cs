@@ -66,7 +66,7 @@ public class Announcement
 		{
 			return true;
 		}
-		else if (Forum.ParentForum != null && Forum.ParentForum.Curators.Any(x => x.UserId == user.UserId))
+		else if (Forum?.ParentForum?.Curators.Any(x => x.UserId == user.UserId) ?? false)
 		{
 			return true;
 		}
@@ -75,17 +75,8 @@ public class Announcement
 			return false;
 		}
 	}
-	public bool IsParentCurator(PrincipalUser user)
-	{
-		if (Forum.ParentForum != null && Forum.ParentForum.Curators.Any(x => x.UserId == user.UserId))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	public bool IsParentCurator(PrincipalUser user) 
+		=> Forum?.ParentForum?.Curators.Any(x => x.UserId == user.UserId) ?? false;
 
 	public bool IsModerator(PrincipalUser user)
 	{
@@ -97,7 +88,7 @@ public class Announcement
 		{
 			return true;
 		}
-		else if (Forum.ParentForum != null && Forum.ParentForum.Moderators.Any(x => x.UserId == user.UserId))
+		else if (Forum?.ParentForum?.Moderators.Any(x => x.UserId == user.UserId) ?? false)
 		{
 			return true;
 		}
