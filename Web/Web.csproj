@@ -38,6 +38,16 @@
 		<PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="*" />
 
 
+		<PackageReference Include="Serilog" Version="*" />
+		<PackageReference Include="Serilog.AspNetCore" Version="*" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="*" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="*" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="*" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="*" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="*" />
+		<PackageReference Include="Serilog.Sinks.File" Version="*" />
+		
+		
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="*" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 		

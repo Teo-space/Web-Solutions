@@ -1,8 +1,6 @@
 ﻿namespace Web.Controllers;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+
 using Web.Forums.Domain.Aggregate;
 using Web.Forums.Infrastructure.EntityFrameworkCore;
 using Web.Forums.UseCases.Forums.ReadModel;
@@ -18,48 +16,30 @@ public class ForumsController
 )
 	: Controller
 {
-
+	//Ulid Id
 	//01H91G1S5HPYYG8Z218MA0GC0N
 	//00000000000000000000000000
 
-	public async Task<IActionResult> Index(QueryForumDisplay request)
-	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
-		return await ForumDisplay(request);
-	}
+	public Task<IActionResult> Index(QueryForumDisplay request) 
+		=> ForumDisplay(request);
 
-	public async Task<IActionResult> ForumDisplay(QueryForumDisplay request)
-	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
-		var result = await mediatr.Send(request);
-		return View("ForumDisplay", result);
-	}
-	public async Task<IActionResult> ForumDisplayNextPage(QueryForumDisplayNextPage request)
-	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
-		var result = await mediatr.Send(request);
-		return View("ForumDisplay", result);
-	}
+	public async Task<IActionResult> ForumDisplay(QueryForumDisplay request) 
+		=> View("ForumDisplay", await mediatr.Send(request));
+
+	public async Task<IActionResult> ForumDisplayNextPage(QueryForumDisplayNextPage request) 
+		=> View("ForumDisplay", await mediatr.Send(request));
+
 
 	public async Task<IActionResult> ForumDisplayPreviousPage(QueryForumDisplayPreviousPage request)
-	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
-		var result = await mediatr.Send(request);
-		return View("ForumDisplay", result);
-	}
+		=> View("ForumDisplay", await mediatr.Send(request));
+
 
 	public async Task<IActionResult> ForumDisplayPage(QueryForumDisplayPage request)
-	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
-		var result = await mediatr.Send(request);
-		return View("ForumDisplay", result);
-	}
+		=> View("ForumDisplay", await mediatr.Send(request));
 
-	public async Task<IActionResult> ForumSearch(QueryForumSearch request)
-	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
-		throw new NotImplementedException();
-	}
+	public async Task<IActionResult> ForumSearch(QueryForumSearch request) 
+		=> throw new NotImplementedException();
+
 
 
 
@@ -68,9 +48,6 @@ public class ForumsController
 
 	public async Task<IActionResult> ForumCreate(CommandForumCreate request)
 	{
-		logger?.LogWarning($"ForumCreate[{this.HttpContext.Request.Path}][{this.HttpContext.Request.Method}] {request.ParentForumId}, {request.Title}, {request.Description}");
-		logger?.LogWarning($"ModelState.IsValid [{ModelState.IsValid}]");
-
 		ViewBag.ForumResult = await mediatr.Send(new QueryForumGet(request.ParentForumId));
 		return View(nameof(ForumCreate), request);
 	}
@@ -79,23 +56,18 @@ public class ForumsController
 	[HttpPost]
 	public async Task<IActionResult> ForumCreatePost(CommandForumCreate request)
 	{
-		logger?.LogWarning($"ForumCreatePost[{this.HttpContext.Request.Path}][{this.HttpContext.Request.Method}] {request.ParentForumId}, {request.Title}, {request.Description}");
-		logger?.LogWarning($"ModelState.IsValid [{ModelState.IsValid}]");
-
 		if(!ModelState.IsValid)
 		{
 			return RedirectToAction(nameof(ForumCreate), request);
 		}
 
-		var ForumResult = await mediatr.Send(request);
-		if (ForumResult.Success)
+		var Result = await mediatr.Send(request);
+		if (Result.Success)
 		{
-			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(ForumResult.Value.ForumId));
+			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(Result.Value.ForumId));
 		}
-		else
-		{
-			return RedirectToAction(nameof(ForumCreate), request);
-		}
+		logger.LogError("Result: {Result}", Result);
+		return RedirectToAction(nameof(ForumCreate), request);
 	}
 
 
@@ -107,33 +79,26 @@ public class ForumsController
 
 	public async Task<IActionResult> ForumEdit(CommandForumEdit request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}///{this.HttpContext.Request.Method} {request.ForumId}, {request.Title}, {request.Description}");
-		logger?.LogWarning($"ModelState.IsValid [{ModelState.IsValid}]");
-
 		ViewBag.ForumResult = await mediatr.Send(new QueryForumGet(request.ForumId));
 		return View(request);
 	}
 
+
 	[HttpPost]
 	public async Task<IActionResult> ForumEditPost(CommandForumEdit request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}///{this.HttpContext.Request.Method} {request.ForumId}, {request.Title}, {request.Description}");
-		logger?.LogWarning($"ModelState.IsValid [{ModelState.IsValid}]");
-
 		if (!ModelState.IsValid)
 		{
 			return RedirectToAction(nameof(ForumEdit), request);
 		}
 
-		var ForumResult = await mediatr.Send(request);
-		if (ForumResult.Success)
+		var Result = await mediatr.Send(request);
+		if (Result.Success)
 		{
-			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(ForumResult.Value.ForumId));
+			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(Result.Value.ForumId));
 		}
-		else
-		{
-			return RedirectToAction(nameof(ForumEdit), request);
-		}
+		logger.LogError("Result: {Result}", Result);
+		return RedirectToAction(nameof(ForumEdit), request);
 	}
 
 
@@ -146,7 +111,6 @@ public class ForumsController
 
 	public async Task<IActionResult> ForumOpen(CommandForumOpen request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
@@ -154,19 +118,14 @@ public class ForumsController
 		var Result = await mediatr.Send(request);
 		if (Result.Success)
 		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	Result.Success");
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 		}
-		else
-		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	{Result}");
-			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
-		}
+		logger.LogError("Result: {Result}", Result);
+		return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 	}
 
 	public async Task<IActionResult> ForumClose(CommandForumClose request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
@@ -174,19 +133,15 @@ public class ForumsController
 		var Result = await mediatr.Send(request);
 		if (Result.Success)
 		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	Result.Success");
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 		}
-		else
-		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	Result: {Result}");
-			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
-		}
+		logger.LogError("Result: {Result}", Result);
+		return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 	}
+
 
 	public async Task<IActionResult> ForumDelete(CommandForumDelete request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
@@ -194,35 +149,27 @@ public class ForumsController
 		var Result = await mediatr.Send(request);
 		if (Result.Success)
 		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	Result.Success");
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 		}
-		else
-		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	Result: {Result}");
-			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
-		}
+		logger.LogError("Result: {Result}", Result);
+		return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 	}
+
 
 	public async Task<IActionResult> ForumUnDelete(CommandForumUnDelete request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 		}
+
 		var Result = await mediatr.Send(request);
-		
 		if (Result.Success)
 		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	Result.Success");
 			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 		}
-		else
-		{
-			logger?.LogError($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}	Result: {Result}");
-			return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
-		}
+		logger.LogError("Result: {Result}", Result);
+		return RedirectToAction(nameof(ForumDisplay), new QueryForumDisplay(request.ForumId));
 	}
 
 
@@ -236,7 +183,6 @@ public class ForumsController
 
 	public async Task<IActionResult> ForumAddCurator(CommandForumAddCurator request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
@@ -247,19 +193,17 @@ public class ForumsController
 		{
 			return View(Result.NotFound<Forum>(request.ForumId.ToString()));
 		}
-		var result = forum.AddCurator(User, new Forums.Domain.Owned.Curator(
-			forum.ForumId, Ulid.NewUlid(), request.UserId, request.UserName));
-
+		var result = forum.AddCurator(User, Curator.Create(forum.ForumId, request.UserId, request.UserName));
 		if (result.Success)
 		{
 			await forumDbContext.SaveChangesAsync();
 		}
+		logger.LogError("Result: {result}", result);
 		return View(result);
 	}
 
 	public async Task<IActionResult> ForumRemoveCurator(CommandForumRemoveCurator request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
@@ -275,12 +219,12 @@ public class ForumsController
 		{
 			await forumDbContext.SaveChangesAsync();
 		}
+		logger.LogError("Result: {result}", result);
 		return View(result);
 	}
 
 	public async Task<IActionResult> ForumAddModerator(CommandForumAddModerator request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
@@ -297,12 +241,12 @@ public class ForumsController
 		{
 			await forumDbContext.SaveChangesAsync();
 		}
+		logger.LogError("Result: {result}", result);
 		return View(result);
 	}
 
 	public async Task<IActionResult> ForumRemoveModerator(CommandForumRemoveModerator request)
 	{
-		logger?.LogWarning($"{this.HttpContext.Request.Path}	{this.HttpContext.Request.Method}");
 		if (!ModelState.IsValid)
 		{
 			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
@@ -318,6 +262,7 @@ public class ForumsController
 		{
 			await forumDbContext.SaveChangesAsync();
 		}
+		logger.LogError("Result: {result}", result);
 		return View(result);
 	}
 

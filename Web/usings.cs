@@ -37,33 +37,20 @@ global using System.Text.Encodings.Web;
 
 //############################################################################################
 //############################################################################################
-
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 global using AutoMapper;
 global using AutoMapper.QueryableExtensions;
 global using MediatR;
 global using Mapster;
 global using AgileObjects.AgileMapper;
-
-
 global using FluentValidation;
 global using FluentAssertions;
-
-
-global using Microsoft.EntityFrameworkCore;
-global using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-
-
 global using MoreLinq;
-global using System.Net.NetworkInformation;
 
-//############################################################################################
-//############################################################################################
-
-
-
-
+global using Microsoft.Extensions.Logging;
+global using System.Diagnostics;
 
 
 

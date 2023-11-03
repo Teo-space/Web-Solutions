@@ -2,6 +2,8 @@ using FluentAssertions.Common;
 using FluentValidation.AspNetCore;
 using Identity.BasicRoles;
 using Identity.RootUser;
+using Serilog;
+using Serilog.Events;
 using StackExchange.Profiling.Storage;
 using Web.Forums.Infrastructure.Initializers;
 
@@ -17,7 +19,17 @@ var builder = WebApplication.CreateBuilder(args);
 	//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 	//    .AddEntityFrameworkStores<ApplicationDbContext>();
 	{
-		builder.Services.AddLogging();
+		//builder.Services.AddLogging();
+		builder.Host.UseSerilog((context, services, configuration) => configuration
+			.ReadFrom.Configuration(context.Configuration)
+			.ReadFrom.Services(services)
+			.Enrich.FromLogContext()
+			.WriteTo.Console()
+			.MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
+			.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+			.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information)
+			.MinimumLevel.Override("Microsoft.AspNetCore.Hosting.Diagnostics", LogEventLevel.Warning)
+			);
 	}
 	{
 		builder.Services.AddMiniProfiler();
@@ -72,7 +84,9 @@ var app = builder.Build();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
 
-    app.UseRouting();
+	//app.UseSerilogRequestLogging();
+
+	app.UseRouting();
 
     app.UseAuthorization();
 	app.UseMiniProfiler();
