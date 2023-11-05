@@ -26,7 +26,6 @@ else
 
     <div class=" text-danger">Count: @Topic.Posts.Count</div>
 
-
     <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden table-responsive-sm">
         <thead class="text-nowrap overflow-hidden">
             <tr>
@@ -40,7 +39,6 @@ else
             </tr>
         </thead>
         <tbody class="align-content-center justify-content-center table-responsive-sm ">
-
             <tr class="m-1 p-2">
                 <th scope="row" class="col-1 align-middle text-center">
                     @Topic.CreatedBy.At.ToShortDateString()
@@ -48,7 +46,6 @@ else
                 <td class="col-11 align-content-center justify-content-center">
                 </td>
             </tr>
-
             <tr class="m-1 p-2">
                 <th scope="row" class="col-1 text-center">
 
@@ -58,14 +55,11 @@ else
 
                 </th>
                 <td class="col-11 align-content-center justify-content-center">
-                    <div>@Topic.Text</div>
+                    <div><markdown>@Topic.Text</markdown></div>
                 </td>
 
 
             </tr>
-
-
-
             @foreach (var post in Topic.Posts)
             {
                 <tr class="m-1 p-2">
@@ -75,7 +69,6 @@ else
                     <td class="col-11 align-content-center justify-content-center">
                     </td>
                 </tr>
-
                 <tr class="m-1 p-2">
                     <th scope="row" class="col-1 align-content-center justify-content-center">
 
@@ -85,13 +78,10 @@ else
 
                     </th>
                     <td class="col-11 align-content-center justify-content-center">
-                        <div>@post.Text</div>
+                        <div><markdown>@Topic.Text</markdown></div>
                     </td>
-
-
                 </tr>
             }
-
         </tbody>
     </table>
 
@@ -107,7 +97,7 @@ else
 
             <div class="form-group m-2">
                 <span asp-validation-for="@Model.Text" class="text-danger"></span>
-                <textarea asp-for="@Model.Text" type="text" rows="10" class="form-control bg-secondary text-dark">
+                <textarea asp-for="@Model.Text" type="text" rows="12" class="form-control bg-secondary text-dark">
                     @* <markdown></markdown> *@
                     @(Model?.Text ?? "")
                 </textarea>

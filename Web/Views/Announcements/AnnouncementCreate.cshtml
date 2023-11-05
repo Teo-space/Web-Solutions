@@ -36,8 +36,7 @@ else
 			<label asp-for="@Model.Text" class="text-white m-1">Содержание</label>
 			<p><small class="text-secondary m-1">максимум 100 символов</small></p>
 			<span asp-validation-for="@Model.Text" class="text-danger"></span>
-			<textarea type="text" rows="10" class="form-control" asp-for="@Model.Text">
-				@* <markdown></markdown> *@
+			<textarea type="text" rows="18" class="form-control" asp-for="@Model.Text">
 				@(@Model?.Text ?? "")
 			</textarea>
 		</div>
