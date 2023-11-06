@@ -15,7 +15,7 @@ public class TopicsController(ILogger <TopicsController> logger, IMediator media
 	}
 
 
-
+	/*
 	[HttpPost]
 	public async Task<IActionResult> TopicPostCreatePost(CommandPostCreate request)
 	{
@@ -24,16 +24,17 @@ public class TopicsController(ILogger <TopicsController> logger, IMediator media
 			return RedirectToAction(nameof(TopicDisplay), request);
 		}
 
-		var Result = await mediatr.Send(request);
-		if (Result.Success)
+		var result = await mediatr.Send(request);
+		if (result.Success)
 		{
+			logger?.LogInformation("Created");
 			return RedirectToAction(nameof(TopicDisplay), request);
 		}
-		logger?.LogError("Result: {Result}", Result);
-		return RedirectToAction(nameof(TopicDisplay), request);
+		logger?.LogError("Result: {Result}", result);
+		return View("PostError", request);
 	}
 
-
+	*/
 
 
 	public async Task<IActionResult> TopicCreate(CommandTopicCreate request)

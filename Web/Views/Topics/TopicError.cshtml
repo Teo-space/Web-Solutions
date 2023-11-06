@@ -1,0 +1,13 @@
+﻿@model Result<Topic>
+
+@{
+	ViewData["Title"] = "Topic Error";
+}
+
+@if (!@Model.Success)
+{
+	<div class="alert alert-danger" role="alert">
+		<p>@Model.Type</p>
+		<p>@Model.Detail</p>
+	</div>
+}

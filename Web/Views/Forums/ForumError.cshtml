@@ -1,0 +1,13 @@
+﻿@model Result<Forum>
+
+@{
+	ViewData["Title"] = "Forum Error";
+}
+
+@if (!@Model.Success)
+{
+	<div class="alert alert-danger" role="alert">
+		<p>@Model.Type</p>
+		<p>@Model.Detail</p>
+	</div>
+}

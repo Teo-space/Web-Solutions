@@ -28,6 +28,7 @@ public record QueryTopicDisplay(IDType TopicId) : IRequest<Result<Topic>>
 				.Include(x => x.Forum).ThenInclude(x => x.ParentForum)
 				.Include(x => x.Forum).ThenInclude(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.Forum).ThenInclude(x => x.ParentForum).ThenInclude(x => x.Moderators)
+				.Include(x => x.Posts)
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (Topic is null)
