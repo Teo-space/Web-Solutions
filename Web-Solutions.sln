@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		ToDoAvatars.txt = ToDoAvatars.txt
-		ToDoCounters.txt = ToDoCounters.txt
 		ToDoUserProfile.txt = ToDoUserProfile.txt
 		TodoNotify.txt = TodoNotify.txt
 	EndProjectSection
