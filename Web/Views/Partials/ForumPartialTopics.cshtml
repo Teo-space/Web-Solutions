@@ -31,7 +31,7 @@
         <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
             <thead>
                 <tr class="text-white">
-                    <th scope="col" colspan="4"><p class="p-2">Topics of @Model.Value.Title</p></th>
+                    <th scope="col" colspan="5"><p class="p-2">Topics of @Model.Value.Title</p></th>
                 </tr>
             </thead>
 
@@ -82,7 +82,17 @@
 
                             </div>
                         </td>
+                        <td>
+                            <div class="pe-1">
+                                <div class="row text-muted text-center">
+                                    <small class="text-center">Posts</small>
+                                </div>
+                                <div class="row text-muted">
+                                    <h5 class="text-center text-center">@topic.PostsCount</h5>
+                                </div>
 
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>

@@ -20,6 +20,9 @@ public class Topic
 
 	public List<Post> Posts { get; private set; } = new List<Post>();
 
+	public ulong PostsCount { get; private set; } = 0;
+	public ulong PostCreated() => PostsCount++;
+
 
 	public bool Closed { get; set; } = false;
 	public bool IsClosed => Closed || Forum.Closed || (Forum.ParentForum != null && Forum.ParentForum.Closed);
@@ -90,6 +93,8 @@ public class Topic
 		{
 			var post = Post.Create(this, user, Text);
 			this.Posts.Add(post);
+			this.PostCreated();
+
 			return Result.Ok(post);
 		}
 		else

@@ -40,8 +40,9 @@ public class Forum
 	//public uint TopicsCount { get; set; } = 0;
 	public List<Topic> Topics { get; private set; } = new List<Topic>();
 
+	public ulong TopicsCount { get; private set; } = 0;
+	public ulong TopicCreated() => TopicsCount++;
 
-	
 
 
 	public UserAction CreatedBy { get; set; }
@@ -352,6 +353,8 @@ public class Forum
 			var topic = Topic.Create(this, user, Title, Text);
 
 			Topics.Add(topic);
+			this.TopicCreated();
+
 			return Result.Ok(topic);
 		}
 		else
