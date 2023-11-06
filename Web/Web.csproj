@@ -59,7 +59,7 @@
 	
 	
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\WebNew\Identity\Identity.csproj" />
+	  <ProjectReference Include="..\Identity\Identity.csproj" />
 	  <ProjectReference Include="..\Results\Results.csproj" />
 	  <ProjectReference Include="..\Web.Forums.Domain\Web.Forums.Domain.csproj" />
 	  <ProjectReference Include="..\Web.Forums.Infrastructure\Web.Forums.Infrastructure.csproj" />
