@@ -35,7 +35,7 @@ public record QueryForumDisplayNextPage(IDType ForumId, DateTime Replied) : IReq
 
 			if (forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 			//if (forum.Deleted)
 			//{
@@ -45,7 +45,7 @@ public record QueryForumDisplayNextPage(IDType ForumId, DateTime Replied) : IReq
 			forum.Viewed();
 			await forumDbContext.SaveChangesAsync();
 
-			return Result.Ok(forum);
+			return Results.Ok(forum);
 		}
 	}
 }

@@ -32,12 +32,12 @@ public record QueryAnnouncementDisplay(IDType AnnouncementId) : IRequest<Result<
 
 			if (Announcement is null)
 			{
-				return Result.NotFoundById<Announcement>(request.AnnouncementId);
+				return Results.NotFoundById<Announcement>(request.AnnouncementId);
 			}
 			Announcement.Viewed();
 			await forumDbContext.SaveChangesAsync();
 
-			return Result.Ok(Announcement);
+			return Results.Ok(Announcement);
 		}
 	}
 

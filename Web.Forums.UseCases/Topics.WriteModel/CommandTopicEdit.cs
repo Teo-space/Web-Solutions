@@ -40,7 +40,7 @@ public record CommandTopicEdit(IDType TopicId, string Title, string Text) : IReq
 
 			if (Topic is null)
 			{
-				return Result.NotFoundById<Topic>(request.TopicId);
+				return Results.NotFoundById<Topic>(request.TopicId);
 			}
 			var result = Topic.Edit(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)

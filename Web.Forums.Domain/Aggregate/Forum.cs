@@ -244,11 +244,11 @@ public class Forum
 		{
 			var forum = Create(this, user, Title, Description);
 			Forums.Add(forum);
-			return Result.Ok(forum);
+			return Results.Ok(forum);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
 
@@ -296,11 +296,11 @@ public class Forum
 			var announcement = Announcement.Create(this, user, Title, Text);
 			//this.AnnouncementsCount += 1;
 			Announcements.Add(announcement);
-			return Result.Ok(announcement);
+			return Results.Ok(announcement);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Announcement>();
+			return Results.NotEnoughPermissions<Announcement>();
 		}
 	}
 
@@ -355,11 +355,11 @@ public class Forum
 			Topics.Add(topic);
 			this.TopicCreated();
 
-			return Result.Ok(topic);
+			return Results.Ok(topic);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Topic>();
+			return Results.NotEnoughPermissions<Topic>();
 		}
 	}
 
@@ -397,11 +397,11 @@ public class Forum
 			this.SetUpdatedBy(user.UserId, user.UserName);
 			this.Edited(user, Title, Description);
 
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
 
@@ -434,11 +434,11 @@ public class Forum
 			Deleted = true;
 			this.Moderated(user, $"Delete", ForumId, comment);
 
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
 
@@ -452,16 +452,13 @@ public class Forum
 			Deleted = false;
 			this.Moderated(user, $"UnDelete", ForumId, comment);
 
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
-
-
-
 
 
 	public bool CanClose(PrincipalUser user)
@@ -488,11 +485,11 @@ public class Forum
 		{
 			Closed = false;
 			this.Moderated(user, $"Open", ForumId, comment);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
 
@@ -504,11 +501,11 @@ public class Forum
 		{
 			Closed = true;
 			this.Moderated(user, $"Close", ForumId, comment);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
 
@@ -539,17 +536,17 @@ public class Forum
 		{
 			if (Curators.Any(x => x.UserId == curator.UserId))
 			{
-				return Result.Ok(this);
+				return Results.Ok(this);
 			}
 
 			Curators.Add(curator);
 			this.Moderated(user, $"AddCurator", ForumId, curator.UserName);
 
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
 
@@ -563,16 +560,16 @@ public class Forum
 			var curator = Curators.FirstOrDefault(x => x.UserId == UserId);
 			if (curator == null)
 			{
-				return Result.NotFound<Forum>(UserId.ToString());
+				return Results.NotFound<Forum>(UserId.ToString());
 			}
 			Curators.RemoveAll(x => x.UserId == UserId);
 			this.Moderated(user, $"RemoveCurator", ForumId, curator.UserName);
 
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Forum>();
+			return Results.NotEnoughPermissions<Forum>();
 		}
 	}
 
@@ -585,16 +582,16 @@ public class Forum
 		{
 			if (Moderators.Any(x => x.UserId == moderator.UserId))
 			{
-				return Result.Ok(Moderators.First(x => x.UserId == moderator.UserId));
+				return Results.Ok(Moderators.First(x => x.UserId == moderator.UserId));
 			}
 			Moderators.Add(moderator);
 			this.Moderated(user, $"AddModerator", ForumId, moderator.UserName);
 
-			return Result.Ok(moderator);
+			return Results.Ok(moderator);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Moderator>();
+			return Results.NotEnoughPermissions<Moderator>();
 		}
 	}
 
@@ -608,16 +605,16 @@ public class Forum
 			var moderator = Moderators.FirstOrDefault(x => x.UserId == UserId);
 			if (moderator == null)
 			{
-				return Result.NotFound<Moderator>(UserId.ToString());
+				return Results.NotFound<Moderator>(UserId.ToString());
 			}
 			Moderators.RemoveAll(x => x.UserId == moderator.UserId);
 			this.Moderated(user, $"RemoveModerator", ForumId, moderator.UserName);
 
-			return Result.Ok(moderator);
+			return Results.Ok(moderator);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Moderator>();
+			return Results.NotEnoughPermissions<Moderator>();
 		}
 	}
 

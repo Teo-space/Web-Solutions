@@ -31,7 +31,7 @@ public record CommandAnnouncementUnDelete(IDType AnnouncementId, string comment)
 
 			if (Announcement is null)
 			{
-				return Result.NotFoundById<Announcement>(request.AnnouncementId);
+				return Results.NotFoundById<Announcement>(request.AnnouncementId);
 			}
 			var result = Announcement.UnDelete(userAccessor.GetUserThrowIfIsNull(), request.comment);
 			if (result.Success)

@@ -30,7 +30,7 @@ public record CommandTopicUnDelete(IDType TopicId, string comment) : IRequest<Re
 
 			if (Topic is null)
 			{
-				return Result.NotFoundById<Topic>(request.TopicId);
+				return Results.NotFoundById<Topic>(request.TopicId);
 			}
 			var result = Topic.UnDelete(userAccessor.GetUserThrowIfIsNull(), request.comment);
 			if (result.Success)

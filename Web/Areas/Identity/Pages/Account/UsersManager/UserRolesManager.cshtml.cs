@@ -10,8 +10,10 @@ public class UserRolesManager(
 {
     [BindProperty]
     public string UserId { get; set; }
+
     [BindProperty]
     public string UserName { get; set; }
+
     [BindProperty]
     public string Email { get; set; }
 

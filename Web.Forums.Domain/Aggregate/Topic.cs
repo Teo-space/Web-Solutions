@@ -95,11 +95,11 @@ public class Topic
 			this.Posts.Add(post);
 			this.PostCreated();
 
-			return Result.Ok(post);
+			return Results.Ok(post);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Post>();
+			return Results.NotEnoughPermissions<Post>();
 		}
 	}
 
@@ -169,12 +169,14 @@ public class Topic
 		{
 			this.Title = Title;
 			this.Text = Text;
+
 			this.SetUpdatedBy(user.UserId, user.UserName);
-			return Result.Ok(this);
+
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Topic>();
+			return Results.NotEnoughPermissions<Topic>();
 		}
 	}
 
@@ -198,11 +200,11 @@ public class Topic
 		if (CanDelete(user))
 		{
 			Deleted = true;
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Topic>();
+			return Results.NotEnoughPermissions<Topic>();
 		}
 	}
 
@@ -213,14 +215,14 @@ public class Topic
 	{
 		if (!CanDelete(user))
 		{
-			return Result.NotEnoughPermissions<Topic>();
+			return Results.NotEnoughPermissions<Topic>();
 		}
 
 
 		Deleted = false;
 		//this.Moderated(user, $"MainForum.UnDelete", ForumId, comment);
 
-		return Result.Ok(this);
+		return Results.Ok(this);
 	}
 
 
@@ -243,11 +245,11 @@ public class Topic
 		if (CanClose(user))
 		{
 			Closed = false;
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Topic>();
+			return Results.NotEnoughPermissions<Topic>();
 		}
 	}
 
@@ -258,11 +260,11 @@ public class Topic
 		if (CanClose(user))
 		{
 			Closed = true;
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Topic>();
+			return Results.NotEnoughPermissions<Topic>();
 		}
 	}
 

@@ -1,17 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using Microsoft.AspNetCore.WebUtilities;
-using System.Text.Encodings.Web;
-
-namespace Web.Areas.Identity.Pages.Account.Manage;
+﻿namespace Web.Areas.Identity.Pages.Account.Manage;
 
 
-public class EmailModel(
-    UserManager userManager,
-    IEmailSender emailSender)
-
+public class EmailModel(UserManager userManager, IEmailSender emailSender)
     : PageModel
 {
 

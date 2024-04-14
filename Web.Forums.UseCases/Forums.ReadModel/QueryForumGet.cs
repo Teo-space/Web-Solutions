@@ -26,14 +26,14 @@ public record QueryForumGet(IDType ForumId) : IRequest<Result<Forum>>
 
 			if (forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 			if (forum.Deleted)
 			{
-				return Result.Deleted<Forum>(request.ForumId.ToString());
+				return Results.Deleted<Forum>(request.ForumId.ToString());
 			}
 
-			return Result.Ok(forum);
+			return Results.Ok(forum);
 		}
 	}
 }

@@ -1,16 +1,10 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-
-namespace Web.Areas.Identity.Pages.Account.Manage;
+﻿namespace Web.Areas.Identity.Pages.Account.Manage;
 
 
 public class ChangePasswordModel(
         UserManager userManager,
         SignInManager signInManager,
         ILogger<ChangePasswordModel> logger)
-
     : PageModel
 {
 

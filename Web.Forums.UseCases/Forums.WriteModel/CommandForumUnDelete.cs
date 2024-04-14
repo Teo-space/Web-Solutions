@@ -26,7 +26,7 @@ public record CommandForumUnDelete(IDType ForumId, string comment) : IRequest<Re
 
 			if (forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 
 			var result = forum.UnDelete(userAccessor.GetUserThrowIfIsNull(), request.comment);

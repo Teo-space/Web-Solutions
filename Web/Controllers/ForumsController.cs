@@ -3,6 +3,8 @@
 
 using Web.Forums.Domain.Aggregate;
 using Web.Forums.Infrastructure.EntityFrameworkCore;
+using Web.Forums.UseCases.Forums.Curators;
+using Web.Forums.UseCases.Forums.Moderators;
 using Web.Forums.UseCases.Forums.ReadModel;
 using Web.Forums.UseCases.Forums.WriteModel;
 using Web.Models;
@@ -181,17 +183,17 @@ public class ForumsController
 
 
 
-	public async Task<IActionResult> ForumAddCurator(CommandForumAddCurator request)
+	public async Task<IActionResult> ForumAddCurator(CommandForumCuratorAdd request)
 	{
 		if (!ModelState.IsValid)
 		{
-			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
+			ViewBag.ForumResult = Results.InputValidationError<Forum>(request.ForumId.ToString());
 			return View(nameof(ForumCreate), request);
 		}
 		var forum = await forumDbContext.Forums.Where(f => f.ForumId == request.ForumId).FirstOrDefaultAsync();
 		if (forum == null)
 		{
-			return View(Result.NotFound<Forum>(request.ForumId.ToString()));
+			return View(Results.NotFound<Forum>(request.ForumId.ToString()));
 		}
 		var result = forum.AddCurator(User, Curator.Create(forum.ForumId, request.UserId, request.UserName));
 		if (result.Success)
@@ -202,17 +204,17 @@ public class ForumsController
 		return View(result);
 	}
 
-	public async Task<IActionResult> ForumRemoveCurator(CommandForumRemoveCurator request)
+	public async Task<IActionResult> ForumRemoveCurator(CommandForumCuratorRemove request)
 	{
 		if (!ModelState.IsValid)
 		{
-			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
+			ViewBag.ForumResult = Results.InputValidationError<Forum>(request.ForumId.ToString());
 			return View(nameof(ForumCreate), request);
 		}
 		var forum = await forumDbContext.Forums.Where(f => f.ForumId == request.ForumId).FirstOrDefaultAsync();
 		if (forum == null)
 		{
-			return View(Result.NotFound<Forum>(request.ForumId.ToString()));
+			return View(Results.NotFound<Forum>(request.ForumId.ToString()));
 		}
 		var result = forum.RemoveCurator(User, request.UserId);
 		if (result.Success)
@@ -223,17 +225,17 @@ public class ForumsController
 		return View(result);
 	}
 
-	public async Task<IActionResult> ForumAddModerator(CommandForumAddModerator request)
+	public async Task<IActionResult> ForumAddModerator(CommandForumModeratorAdd request)
 	{
 		if (!ModelState.IsValid)
 		{
-			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
+			ViewBag.ForumResult = Results.InputValidationError<Forum>(request.ForumId.ToString());
 			return View(nameof(ForumCreate), request);
 		}
 		var forum = await forumDbContext.Forums.Where(f => f.ForumId == request.ForumId).FirstOrDefaultAsync();
 		if (forum == null)
 		{
-			return View(Result.NotFound<Forum>(request.ForumId.ToString()));
+			return View(Results.NotFound<Forum>(request.ForumId.ToString()));
 		}
 		var result = forum.AddModerator(User, new Forums.Domain.Owned.Moderator(
 			forum.ForumId, Ulid.NewUlid(), request.UserId, request.UserName));
@@ -245,17 +247,17 @@ public class ForumsController
 		return View(result);
 	}
 
-	public async Task<IActionResult> ForumRemoveModerator(CommandForumRemoveModerator request)
+	public async Task<IActionResult> ForumRemoveModerator(CommandForumModeratorRemove request)
 	{
 		if (!ModelState.IsValid)
 		{
-			ViewBag.ForumResult = Result.InputValidationError<Forum>(request.ForumId.ToString());
+			ViewBag.ForumResult = Results.InputValidationError<Forum>(request.ForumId.ToString());
 			return View(nameof(ForumCreate), request);
 		}
 		var forum = await forumDbContext.Forums.Where(f => f.ForumId == request.ForumId).FirstOrDefaultAsync();
 		if (forum == null)
 		{
-			return View(Result.NotFound<Forum>(request.ForumId.ToString()));
+			return View(Results.NotFound<Forum>(request.ForumId.ToString()));
 		}
 		var result = forum.RemoveModerator(User, request.UserId);
 		if (result.Success)

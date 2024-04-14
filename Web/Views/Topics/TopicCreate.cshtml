@@ -19,7 +19,6 @@ else
 	var ParentForum = @ParentForumResult.Value;
 	<partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@ParentForumResult" />
 
-
 	<form method="post" asp-asp-controller="Topics" asp-action="TopicCreatePost" asp-antiforgery="true">
 		<div class="form-group m-2">
 			<input type="text" class="form-control" asp-for="@Model.ForumId" value="@Model.ForumId" hidden>

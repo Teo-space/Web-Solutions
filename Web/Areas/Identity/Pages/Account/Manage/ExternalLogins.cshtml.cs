@@ -1,20 +1,11 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-
-using Web;
-
-namespace Web.Areas.Identity.Pages.Account.Manage;
+﻿namespace Web.Areas.Identity.Pages.Account.Manage;
 
 
 public class ExternalLoginsModel(
     UserManager userManager,
     SignInManager signInManager,
     IUserStore<User> userStore,
-    ILogger<EnableAuthenticatorModel> logger
-    )
-
+    ILogger<EnableAuthenticatorModel> logger)
     : PageModel
 {
     public IList<UserLoginInfo> CurrentLogins { get; set; }

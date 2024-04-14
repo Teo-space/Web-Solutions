@@ -25,7 +25,7 @@ public record CommandForumDelete(IDType ForumId, string comment) : IRequest<Resu
 				.FirstOrDefaultAsync(x => x.ForumId == request.ForumId);
 			if (forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 
 			var result = forum.Delete(userAccessor.GetUserThrowIfIsNull(), request.comment);

@@ -26,7 +26,7 @@ public record CommandForumClose(IDType ForumId, string comment) : IRequest<Resul
 
 			if(forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 			var result = forum.Close(userAccessor.GetUserThrowIfIsNull(), request.comment);
 			if(result.Success)

@@ -1,27 +1,18 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-
-using Web;
-
-namespace Web.Areas.Identity.Pages.Account.Manage;
+﻿namespace Web.Areas.Identity.Pages.Account.Manage;
 
 
 public class SetPasswordModel(
     UserManager userManager,
     SignInManager signInManager,
-    ILogger<SetPasswordModel> logger
-    )
-
+    ILogger<SetPasswordModel> logger)
     : PageModel
 {
 
     [BindProperty]
-    public InputModel Input { get; set; }
+    public InputModel? Input { get; set; }
 
     [TempData]
-    public string StatusMessage { get; set; }
+    public string StatusMessage { get; set; } = string.Empty;
 
     public class InputModel
     {

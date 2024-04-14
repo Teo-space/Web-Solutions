@@ -17,7 +17,7 @@ else
 	var Topic = @TopicResult.Value;
 	var Forum = @Topic.Forum;
 
-	<partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@Result.Ok(Forum)" />
+	<partial name="~/Views/Partials/ForumPartialPath.cshtml" model="@Results.Ok(Forum)" />
 
 
 	<form method="post" asp-asp-controller="Topics" asp-action="TopicEditPost" asp-antiforgery="true">

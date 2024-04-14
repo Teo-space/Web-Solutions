@@ -34,7 +34,7 @@ public record CommandAnnouncementCreate(IDType ForumId, string Title, string Tex
 		{
 			if (await dbContext.Set<Announcement>().AnyAsync(x => x.Title == request.Title, cancellationToken))
 			{
-				return Result.ConflictAlreadyExists<Announcement>(request.Title);
+				return Results.ConflictAlreadyExists<Announcement>(request.Title);
 			}
 
 			var ParentForum = await dbContext.Set<Forum>()
@@ -48,7 +48,7 @@ public record CommandAnnouncementCreate(IDType ForumId, string Title, string Tex
 
 			if (ParentForum is null)
 			{
-				return Result.ParentNotFoundById<Announcement>(request.ForumId);
+				return Results.ParentNotFoundById<Announcement>(request.ForumId);
 			}
 			var result = ParentForum.CreateAnnouncement(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)

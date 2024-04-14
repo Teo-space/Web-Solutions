@@ -1,19 +1,9 @@
-#nullable disable
-
-
 namespace Web.Areas.Identity.Pages.Account.UsersManager;
 
 
-public class UsersManagerModel(
-    UserManager userManager,
-    //RoleManager roleManager,
-    ILogger<UsersManagerModel> logger
-    )
-
-    : PageModel
+public class UsersManagerModel(UserManager userManager, ILogger<UsersManagerModel> logger): PageModel
 {
     public IReadOnlyCollection<User> Users { get; set; } = new List<User>();
-
 
     public ActionResult OnGet() => Page();
 
@@ -44,13 +34,10 @@ public class UsersManagerModel(
                 //.Include(x => x.UserRoles)
                 .OrderBy(x => x.UserName)
                 .ToListAsync();
-
         }
 
         return Page();
     }
-
-
 
 
     public record UserSearchByEmailQuery
@@ -65,7 +52,6 @@ public class UsersManagerModel(
 
     public async Task<ActionResult> OnPostByEmailAsync(UserSearchByEmailQuery searchByEmailQuery)
     {
-        //logger.LogInformation($"Post : {searchByEmailQuery.Email}");
         logger.LogInformation($"PostByEmail");
 
         if (ModelState.IsValid)
@@ -77,7 +63,6 @@ public class UsersManagerModel(
                 .OrderBy(x => x.Email)
                 .ToListAsync();
         }
-
 
         return Page();
     }

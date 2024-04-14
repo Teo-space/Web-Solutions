@@ -1,4 +1,6 @@
-﻿namespace Web.Controllers;
+﻿using Web.Forums.UseCases.Posts.WriteModel;
+
+namespace Web.Controllers;
 
 
 public class TopicsController(ILogger <TopicsController> logger, IMediator mediatr) : Controller

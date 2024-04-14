@@ -32,9 +32,9 @@ public record QueryAnnouncementGet(IDType AnnouncementId) : IRequest<Result<Anno
 
 			if (Announcement is null)
 			{
-				return Result.NotFoundById<Announcement>(request.AnnouncementId);
+				return Results.NotFoundById<Announcement>(request.AnnouncementId);
 			}
-			return Result.Ok(Announcement);
+			return Results.Ok(Announcement);
 		}
 	}
 

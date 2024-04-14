@@ -64,11 +64,11 @@ public class Post
 		{
 			this.Text = Text;
 			this.SetUpdatedBy(user.UserId, user.UserName);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Post>();
+			return Results.NotEnoughPermissions<Post>();
 		}
 	}
 
@@ -93,11 +93,11 @@ public class Post
 		{
 			Deleted = true;
 			//this.Moderated(user, $"MainForum.Delete", ForumId, comment);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Post>();
+			return Results.NotEnoughPermissions<Post>();
 		}
 	}
 
@@ -110,11 +110,11 @@ public class Post
 		{
 			Deleted = false;
 			//this.Moderated(user, $"MainForum.UnDelete", ForumId, comment);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Post>();
+			return Results.NotEnoughPermissions<Post>();
 		}
 	}
 

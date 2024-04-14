@@ -26,7 +26,7 @@ public record CommandForumOpen(IDType ForumId, string comment) : IRequest<Result
 
 			if (forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 
 			var result = forum.Open(userAccessor.GetUserThrowIfIsNull(), request.comment);

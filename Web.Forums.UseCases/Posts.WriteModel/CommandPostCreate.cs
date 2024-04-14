@@ -1,4 +1,4 @@
-﻿namespace Web.Forums.UseCases.Topics.WriteModel;
+﻿namespace Web.Forums.UseCases.Posts.WriteModel;
 
 
 public record CommandPostCreate(IDType TopicId, string Text) : IRequest<Result<Post>>
@@ -31,7 +31,7 @@ public record CommandPostCreate(IDType TopicId, string Text) : IRequest<Result<P
 
 			if (Topic is null)
 			{
-				return Result.ParentNotFoundById<Post>(request.TopicId);
+				return Results.ParentNotFoundById<Post>(request.TopicId);
 			}
 			var result = Topic.CreatePost(userAccessor.GetUserThrowIfIsNull(), request.Text);
 			if (result.Success)

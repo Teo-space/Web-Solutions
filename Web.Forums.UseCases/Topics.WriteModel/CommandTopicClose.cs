@@ -30,7 +30,7 @@ public record CommandTopicClose(IDType TopicId, string comment) : IRequest<Resul
 
 			if (Topic is null)
 			{
-				return Result.NotFoundById<Topic>(request.TopicId);
+				return Results.NotFoundById<Topic>(request.TopicId);
 			}
 
 			var result = Topic.Close(userAccessor.GetUserThrowIfIsNull(), request.comment);

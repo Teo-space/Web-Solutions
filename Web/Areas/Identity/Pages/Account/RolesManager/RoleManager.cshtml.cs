@@ -2,24 +2,20 @@ namespace Web.Areas.Identity.Pages.Account.RolesManager;
 
 
 
-public class RoleManagerModel(RoleManager roleManager, ILogger<RoleManagerModel> logger)
-
-    : PageModel
+public class RoleManagerModel(RoleManager roleManager, ILogger<RoleManagerModel> logger): PageModel
 {
     public IReadOnlyCollection<Role> Roles { get; set; } = new List<Role>();
 
-
-
-    async Task UpdateRoles() => Roles = await roleManager.Roles.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
-    public async Task OnGetAsync() => await UpdateRoles();
-
-
+	public async Task OnGetAsync() => await UpdateRoles();
+	async Task UpdateRoles() => Roles = await roleManager.Roles.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
+    
 
     [Required]
     [BindProperty]
     [MinLength(4)]
     [MaxLength(25)]
-    public string RoleName { get; set; }
+    public string RoleName { get; set; } = string.Empty;
+
     public async Task OnPostCreateRoleAsync()
     {
         logger.LogInformation($"OnPostCreateRoleAsync");
@@ -54,9 +50,10 @@ public class RoleManagerModel(RoleManager roleManager, ILogger<RoleManagerModel>
 
 
 
-    [Required]
-    [BindProperty]
-    public string DeleteRoleId { get; set; }
+	[Required]
+	[BindProperty]
+	public string DeleteRoleId { get; set; } = string.Empty;
+
     public async Task OnPostDeleteAsync()
     {
         logger.LogInformation($"OnPostDeleteAsync");

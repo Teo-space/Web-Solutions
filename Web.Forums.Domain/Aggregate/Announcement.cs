@@ -123,11 +123,11 @@ public class Announcement
 			this.Title = Title;
 			this.Text = Text;
 			this.SetUpdatedBy(user.UserId, user.UserName);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Announcement>();
+			return Results.NotEnoughPermissions<Announcement>();
 		}
 	}
 
@@ -145,11 +145,11 @@ public class Announcement
 		{
 			Deleted = true;
 			//this.Moderated(user, $"MainForum.Delete", ForumId, comment);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Announcement>();
+			return Results.NotEnoughPermissions<Announcement>();
 		}
 	}
 
@@ -162,11 +162,11 @@ public class Announcement
 		{
 			Deleted = false;
 			//this.Moderated(user, $"MainForum.UnDelete", ForumId, comment);
-			return Result.Ok(this);
+			return Results.Ok(this);
 		}
 		else
 		{
-			return Result.NotEnoughPermissions<Announcement>();
+			return Results.NotEnoughPermissions<Announcement>();
 		}
 	}
 

@@ -1,0 +1,85 @@
+﻿@using Web.Forums.UseCases.Forums.Curators;
+@model CommandForumCuratorAdd
+@{
+    ViewData["Title"] = "Forum";
+
+    Result<Forum> ForumResult = ViewBag.ForumResult;
+}
+
+@if (!ForumResult.Success)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@ForumResult.Type</p>
+        <p>@ForumResult.Detail</p>
+    </div>
+}
+else
+{
+    var Forum = ForumResult.Value;
+    var Permissions = Forum.GetForumPermissions(this.User);
+
+
+    @if (Permissions.CanChangePrivilegedUsers)
+    {
+        <div class="">
+            <form id="CreateRole" asp-controller="ForumCurators" asp-action="PostCreatePost" asp-antiforgery="true" method="post">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" asp-for="@Model.ForumId">
+                        <i class="bi bi-person-fill-add text-success p-1 pe-3"></i>
+                        Добавить куратора
+                    </label>
+                    <span asp-validation-for="@Model.ForumId" class="text-danger"></span>
+                    <input type="text" class="form-control" asp-for="@Model.ForumId" value="@Model.ForumId" hidden>
+
+                    <span asp-validation-for="@Model.UserId" class="text-danger"></span>
+                    <input type="text" class="form-control" asp-for="@Model.UserId" value="@Model.UserId">
+
+                    <button type="submit" class="btn btn-secondary">Add</button>
+                </div>
+            </form>
+        </div>
+    }
+
+
+    @if (Forum.Curators.Any())
+    {
+        <table class="table table-sm table-striped table-bordered table-dark rounded rounded-4 overflow-hidden">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            @{
+                int Counter = 0;
+            }
+            <tbody>
+                @foreach (var curator in Forum.Curators)
+                {
+                    <tr>
+                        <th scope="row">@(Counter++)</th>
+                        <td>@curator.UserId</td>
+                        <td>@curator.UserName</td>
+                        <td>
+                            @*
+                            <form asp-page-handler="Delete" method="post">
+                                <input asp-for="DeleteRoleId" value="@role.Id" class="form-control" hidden />
+                                <button type="submit" class="btn btn-link">Delete</button>
+                            </form>
+                *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+
+
+
+
+
+}
+

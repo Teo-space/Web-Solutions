@@ -1,12 +1,10 @@
 ﻿namespace Web.Forums.Infrastructure.Initializers;
 
-using Mapster.Utils;
 using Microsoft.Extensions.Options;
 using Web.Forums.Domain.Aggregate;
 using Web.Forums.Domain.Enums;
 using Web.Forums.Domain.Owned;
 using Web.Forums.Infrastructure.EntityFrameworkCore;
-using Z.EntityFramework.Extensions.EFCore;
 
 
 
@@ -21,9 +19,6 @@ public static class ForumInitializer
 
 			var user = userManager.FindByNameAsync(UserOptions.Value.UserName).GetAwaiter().GetResult();
 
-
-
-
 			var forumDbContext = scope.ServiceProvider.GetRequiredService<ForumDbContext>();
 
 			if (!forumDbContext.Set<Forum>().Any())
@@ -33,14 +28,6 @@ public static class ForumInitializer
 				forumDbContext.BulkSaveChanges();
 			}
 
-			//var mainForumCount = forumDbContext.Set<MainForum>().Count();
-			//Console.WriteLine($"mainForumCount: {mainForumCount}");
-
-			//var mainForum = forumDbContext.Set<MainForum>()
-			//	.Include(x => x.ThematicForums)
-			//	.First();
-			//var ThematicForums = mainForum.ThematicForums.ToList();
-			//Console.WriteLine($"ThematicForums: {ThematicForums.Count}");
 		}
 	}
 
@@ -69,26 +56,9 @@ public static class ForumInitializer
 
 			Thread.Sleep(1);
 
-			//ParentIsRoot
-			/*
-			for (int mai = 0; mai< 7; mai++)
-			{
-				var ma = mainForum.CreateAnnouncement(User, Title(mai), Text);
-				if (!ma.Success)
-				{
-					throw new Exception(ma.message);
-				}
-				forumDbContext.Add(ma.Value);
-
-				Thread.Sleep(1);
-			}
-			*/
 			mainForum.Edit(User, Title(mi), Text);
 			mainForum.AddCurator(User, new Curator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 			mainForum.AddModerator(User, new Moderator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
-
-
-
 
 			for (int ti = 0; ti < 10; ti++)
 			{
@@ -154,8 +124,6 @@ public static class ForumInitializer
 							Thread.Sleep(1);
 						}
 					}
-
-
 
 				}
 			}

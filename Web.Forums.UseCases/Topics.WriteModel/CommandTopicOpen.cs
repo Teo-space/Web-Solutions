@@ -30,7 +30,7 @@ public record CommandTopicOpen(IDType TopicId, string comment) : IRequest<Result
 
 			if (Topic is null)
 			{
-				return Result.NotFoundById<Topic>(request.TopicId);
+				return Results.NotFoundById<Topic>(request.TopicId);
 			}
 			var result = Topic.Open(userAccessor.GetUserThrowIfIsNull(), request.comment);
 			if (result.Success)

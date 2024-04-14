@@ -87,6 +87,18 @@
                 }
             }
 
+            @if (Permissions.CanChangePrivilegedUsers)
+            {
+                <div class="m-2">
+                    <a class="text-muted btn btn-outline-dark btn-sm bg-gradient"
+                       asp-controller="ForumCurators"
+                       asp-action="ForumCuratorsDisplay"
+                       asp-route-ForumId="@Forum.ForumId">
+                        <i class="bi bi-person-fill-add text-success"></i>
+                        Кураторы
+                    </a>
+                </div>
+            }
 
 
 

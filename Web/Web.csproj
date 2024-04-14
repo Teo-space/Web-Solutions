@@ -1,12 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<ImplicitUsings>disable</ImplicitUsings>
+		
 		<UserSecretsId>aspnet-Web-372f1d77-f5d7-4d4a-8717-ea4b3e853af0</UserSecretsId>
 		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Remove="Views\Forums2\**" />
@@ -15,52 +20,48 @@
 	  <None Remove="Views\Forums2\**" />
 	</ItemGroup>
 
-	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
+		
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
+		<PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="*" />
+
+		
+		<PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="*" />
+
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
+	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.33.0" />
-		<PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.12.0" />
+		<PackageReference Include="Markdig" Version="0.37.0" />
+		<PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.16.0" />
 		
 		<PackageReference Include="MiniProfiler.AspNetCore" Version="4.3.8" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
 		<PackageReference Include="Ulid" Version="*" />
-		<PackageReference Include="NUlid" Version="*" />
-		
-		<PackageReference Include="FluentValidation" Version="*" />
-		<PackageReference Include="FluentValidation.AspNetCore" Version="*" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="*" />
-		<PackageReference Include="MediatR" Version="*" />
-		<PackageReference Include="Mapster" Version="*" />
-		<PackageReference Include="MoreLinq" Version="*" />
-		
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="*" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="*" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="*" />
-		<PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="*" />
+		<PackageReference Include="NUlid" Version="1.7.2" />
 
-
-		<PackageReference Include="Serilog" Version="*" />
-		<PackageReference Include="Serilog.AspNetCore" Version="*" />
-		<PackageReference Include="Serilog.Enrichers.Environment" Version="*" />
-		<PackageReference Include="Serilog.Extensions.Hosting" Version="*" />
-		<PackageReference Include="Serilog.Extensions.Logging" Version="*" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="*" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="*" />
-		<PackageReference Include="Serilog.Sinks.File" Version="*" />
+		<PackageReference Include="MediatR" Version="12.2.0" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="MoreLinq" Version="4.2.0" />
 		
-		
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="*" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
-		
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
-
-	
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\Identity\Identity.csproj" />
+	  <ProjectReference Include="..\Logging\Logging.csproj" />
 	  <ProjectReference Include="..\Results\Results.csproj" />
+	  <ProjectReference Include="..\Validation\Validation.csproj" />
 	  <ProjectReference Include="..\Web.Forums.Domain\Web.Forums.Domain.csproj" />
 	  <ProjectReference Include="..\Web.Forums.Infrastructure\Web.Forums.Infrastructure.csproj" />
 	  <ProjectReference Include="..\Web.Forums.UseCases\Web.Forums.UseCases.csproj" />
@@ -70,7 +71,6 @@
 	
 	<ItemGroup>
 	  <Folder Include="Data\" />
-	  <Folder Include="Initializers\" />
 	</ItemGroup>
 
 </Project>

@@ -33,13 +33,13 @@ public record QueryTopicDisplay(IDType TopicId) : IRequest<Result<Topic>>
 
 			if (Topic is null)
 			{
-				return Result.NotFoundById<Topic>(request.TopicId);
+				return Results.NotFoundById<Topic>(request.TopicId);
 			}
 
 			Topic.Viewed();
 			await forumDbContext.SaveChangesAsync();
 
-			return Result.Ok(Topic);
+			return Results.Ok(Topic);
 		}
 	}
 }

@@ -36,7 +36,7 @@ public record CommandForumEdit(IDType ForumId, string Title, string Description)
 
 			if (Forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 
 			var result = Forum.Edit(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Description);

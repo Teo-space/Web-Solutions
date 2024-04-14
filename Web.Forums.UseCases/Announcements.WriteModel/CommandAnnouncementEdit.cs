@@ -37,7 +37,7 @@ public record CommandAnnouncementEdit(IDType AnnouncementId, string Title, strin
 				;
 			if (Announcement is null)
 			{
-				return Result.NotFoundById<Announcement>(request.AnnouncementId);
+				return Results.NotFoundById<Announcement>(request.AnnouncementId);
 			}
 			var result = Announcement.Edit(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)

@@ -1,9 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System.Globalization;
-using System.Text.Encodings.Web;
+﻿using System.Globalization;
 
 
 namespace Web.Areas.Identity.Pages.Account.Manage;
@@ -13,7 +8,6 @@ public class EnableAuthenticatorModel(
         UserManager userManager,
         ILogger<EnableAuthenticatorModel> logger,
         UrlEncoder urlEncoder)
-
     : PageModel
 {
 

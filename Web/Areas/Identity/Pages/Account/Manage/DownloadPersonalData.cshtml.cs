@@ -1,16 +1,8 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
+﻿namespace Web.Areas.Identity.Pages.Account.Manage;
 
 
-namespace Web.Areas.Identity.Pages.Account.Manage;
-
-
-public class DownloadPersonalDataModel(
-    UserManager userManager,
-    ILogger<DownloadPersonalDataModel> logger)
-
-    : PageModel
+public class DownloadPersonalDataModel(UserManager userManager, ILogger<DownloadPersonalDataModel> logger)
+	: PageModel
 {
 
     public IActionResult OnGet()
@@ -47,6 +39,7 @@ public class DownloadPersonalDataModel(
         personalData.Add($"Authenticator Key", await userManager.GetAuthenticatorKeyAsync(user));
 
         Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
+
         return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(personalData), "application/json");
     }
 

@@ -32,7 +32,7 @@ public record QueryForumDisplay(IDType ForumId) : IRequest<Result<Forum>>
 
 			if (forum is null)
 			{
-				return Result.NotFoundById<Forum>(request.ForumId);
+				return Results.NotFoundById<Forum>(request.ForumId);
 			}
 			//if (forum.Deleted)
 			//{
@@ -42,7 +42,7 @@ public record QueryForumDisplay(IDType ForumId) : IRequest<Result<Forum>>
 			forum.Viewed();
 			await forumDbContext.SaveChangesAsync();
 
-			return Result.Ok(forum);
+			return Results.Ok(forum);
 		}
 	}
 }

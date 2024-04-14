@@ -29,7 +29,7 @@ public record CommandTopicCreate(IDType ForumId, string Title, string Text) : IR
 		{
 			if (await dbContext.Set<Announcement>().AnyAsync(x => x.Title == request.Title, cancellationToken))
 			{
-				return Result.ConflictAlreadyExists<Topic>(request.Title);
+				return Results.ConflictAlreadyExists<Topic>(request.Title);
 			}
 
 			var ParentForum = await dbContext.Set<Forum>()
@@ -43,7 +43,7 @@ public record CommandTopicCreate(IDType ForumId, string Title, string Text) : IR
 
 			if (ParentForum is null)
 			{
-				return Result.NotFoundById<Topic>(request.ForumId);
+				return Results.NotFoundById<Topic>(request.ForumId);
 			}
 			var result = ParentForum.CreateTopic(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)

@@ -1,6 +1,3 @@
-#nullable disable
-
-
 namespace Web.Areas.Identity.Pages.Account;
 
 
