@@ -1,22 +1,9 @@
 ﻿public partial class Results
 {
-    public static Result<T> Problem<T>(T Value, string Type, string Detail) => new Result<T>()
-    {
-        Value = Value,
-        Success = false,
-        Type = Type,
-        Detail = Detail,
-        Errors = Empty
-    };
+	public static Result<T> Problem<T>(T Value, string Type, string Detail)
+		=> Results.Create<T>(Value, false, Type, Detail);
 
-
-    public static Result<T> Problem<T>(string Type, string Detail) => new Result<T>()
-    {
-        Value = default(T)!,
-        Success = false,
-        Type = Type,
-        Detail = Detail,
-        Errors = Empty
-    };
+	public static Result<T> Problem<T>(string Type, string Detail)
+		=> Results.Create<T>(default(T)!, false, Type, Detail);
 
 }
