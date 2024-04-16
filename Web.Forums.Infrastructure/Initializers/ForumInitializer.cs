@@ -20,12 +20,12 @@ public static class ForumInitializer
 			var user = userManager.FindByNameAsync(UserOptions.Value.UserName).GetAwaiter().GetResult();
 
 			var forumDbContext = scope.ServiceProvider.GetRequiredService<ForumDbContext>();
+			forumDbContext.Database.EnsureCreated();
 
 			if (!forumDbContext.Set<Forum>().Any())
 			{
 				InitializeForum(forumDbContext);
-				//forumDbContext.SaveChanges();
-				forumDbContext.BulkSaveChanges();
+				forumDbContext.SaveChanges();
 			}
 
 		}
@@ -33,8 +33,9 @@ public static class ForumInitializer
 
 
 
-	static string Title(int i) => $"Lorem ipsum dolor sit amet[{i}].{Ulid.NewUlid().ToString()}";
-	static string Text => $"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. {Ulid.NewUlid().ToString()}";
+	static string Title(int i) => $"Lorem ipsum [{i}].{Ulid.NewUlid().ToString()}";
+	static string Text => 
+		$"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do {Ulid.NewUlid().ToString()}";
 
 	public static void InitializeForum(ForumDbContext forumDbContext)
 	{
@@ -54,8 +55,6 @@ public static class ForumInitializer
 			var mainForum = mainForumResult.Value;
 			forumDbContext.Add(mainForum);
 
-			Thread.Sleep(1);
-
 			mainForum.Edit(User, Title(mi), Text);
 			mainForum.AddCurator(User, new Curator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 			mainForum.AddModerator(User, new Moderator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
@@ -73,8 +72,6 @@ public static class ForumInitializer
 				thematicForum.AddModerator(User, new Moderator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 				forumDbContext.Add(thematicForum);
 
-				Thread.Sleep(1);
-
 				for (int tai = 0; tai< 5; tai++)
 				{
 					var ta = thematicForum.CreateAnnouncement(User, Title(tai), Text);
@@ -84,8 +81,6 @@ public static class ForumInitializer
 					}
 
 					forumDbContext.Add(ta.Value);
-
-					Thread.Sleep(1);
 				}
 
 				for (int tti = 0; tti < 50; tti++)
@@ -96,8 +91,6 @@ public static class ForumInitializer
 						throw new Exception(tt.ToString());
 					}
 					forumDbContext.Add(tt.Value);
-
-					Thread.Sleep(1);
 				}
 
 
@@ -108,12 +101,10 @@ public static class ForumInitializer
 					subForum.AddCurator(User, new Curator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 					subForum.AddModerator(User, new Moderator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 					forumDbContext.Add(subForum);
-					Thread.Sleep(1);
 
 					var sa = subForum.CreateAnnouncement(User, Title(si), Text).Value;
 					sa.Edit(User, Title(mi), Text);
 					forumDbContext.Add(sa);
-					Thread.Sleep(1);
 
 					if (mi==0 && si == 0)
 					{
@@ -121,7 +112,6 @@ public static class ForumInitializer
 						{
 							var ts = subForum.CreateTopic(User, Title(tti), Text).Value;
 							forumDbContext.Add(ts);
-							Thread.Sleep(1);
 						}
 					}
 

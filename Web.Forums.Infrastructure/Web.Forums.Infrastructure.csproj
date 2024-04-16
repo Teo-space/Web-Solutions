@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -15,38 +15,27 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Ulid" Version="*" />
-		<PackageReference Include="NUlid" Version="*" />
+		<PackageReference Include="NUlid" Version="1.7.2" />
+		<PackageReference Include="MediatR" Version="12.2.0" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+	</ItemGroup>
 
-		<PackageReference Include="Mapster" Version="*" />
-
-		<PackageReference Include="FluentValidation" Version="*" />
-		<PackageReference Include="FluentValidation.AspNetCore" Version="*" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="*" />
-		<PackageReference Include="MediatR" Version="*" />
-		<PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="*" />
-
-
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="*" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="*" />
-		<PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="*" />
-		
-		
+	<ItemGroup>
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="5.1.0" />
 	</ItemGroup>
 
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+	</ItemGroup>
+	
+	<ItemGroup>
 	  <ProjectReference Include="..\Identity\Identity.csproj" />
 	  <ProjectReference Include="..\Web.Forums.Domain\Web.Forums.Domain.csproj" />
 	</ItemGroup>
-
-
-
-
-
 
 </Project>

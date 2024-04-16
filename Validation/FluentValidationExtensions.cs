@@ -3,7 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-public static class AddFluentValidationWithValidatorsExtensions
+public static class FluentValidationExtensions
 {
 	public static IServiceCollection AddFluentValidationWithValidators(this IServiceCollection services,
 		params Assembly[] assemblies)

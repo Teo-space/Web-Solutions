@@ -21,7 +21,7 @@ public class EntityConfigurationAnnouncement : IEntityTypeConfiguration<Announce
 
 
 		builder.HasIndex(x => x.Title).IsUnique();
-		builder.Property(x => x.Title).HasMaxLength(100).IsConcurrencyToken();
+		builder.Property(x => x.Title).HasMaxLength(50).IsConcurrencyToken();
 		builder.Property(x => x.Text).HasMaxLength(500).IsConcurrencyToken();
 
 
