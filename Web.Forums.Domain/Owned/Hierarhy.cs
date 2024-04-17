@@ -57,7 +57,9 @@ public record Hierarhy
 	/// 1) Выбрать элемент который перемещаем 'target'
 	/// 2) Выбрать дочерние элементы "SELECT WHERE ParentPath = target.Path" "Childs"
 	/// 3) Обновить элемент который перемещаем target.UpdateParent(parent)
+	/// 3.1) target.ParentId = parent.Id
 	/// 4) Обновить дочерние элементы Childs.UpdateParent(target)
+	/// 5) SaveChanges();
 	/// </summary>
 	public Hierarhy UpdateParent(Hierarhy parent)
 	{
