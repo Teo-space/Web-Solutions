@@ -1,10 +1,11 @@
 ﻿using Identity.Interfaces;
-using Microsoft.Extensions.Options;
 
 namespace Identity.Infrastructure.Services;
 
 
-internal class BasicRolesInitializerService(ILogger<BasicRolesInitializerService> logger, RoleManager roleManager)
+internal class BasicRolesInitializerService(
+	ILogger<BasicRolesInitializerService> logger,
+	RoleManager roleManager)
 
 	: IBasicRolesInitializerService
 {

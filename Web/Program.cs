@@ -1,13 +1,12 @@
-using FluentValidation.AspNetCore;
 using Identity.Infrastructure.Initializers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Web.Forums.Infrastructure.Initializers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 {
-
 	builder.Services.AddMiniProfiler();
 	builder.Host.AddSerilogLogging();
 	builder.Services.AddControllersWithViews();
@@ -16,19 +15,27 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSwaggerGen();
 	builder.Services.AddFluentValidationWithValidators(Assembly.GetExecutingAssembly());
     {
-        builder.AddIdentityWithUseSqlite();
+		var connectionString = builder.Configuration.GetConnectionString("MariaDbConnectionIdentity")
+			?? throw new InvalidOperationException("Connection string 'MariaDbConnectionIdentity' not found.");
+
+		builder.AddIdentityWithUseMySql(connectionString);
         builder.AddBasicRolesInitializer();
         builder.AddRootUserInitializer();
     }
     {
-        builder.AddForumInfrastructure();
+		var connectionString = builder.Configuration.GetConnectionString("MariaDbConnectionForum")
+			?? throw new InvalidOperationException("Connection string 'MariaDbConnectionForum' not found.");
+
+		builder.AddForumInfrastructure(connectionString);
 		builder.AddForumUseCases();
 	}
 }
 
 var app = builder.Build();
 {
-    BasicRolesInitializer.Initialize(app.Services);
+	IdentDbContextInitializer.Initialize(app.Services);
+
+	BasicRolesInitializer.Initialize(app.Services);
     RootUserInitializer.Initialize(app.Services);
 	ForumRolesInitializer.Initialize(app.Services);
 	ForumInitializer.InitializeRoot(app.Services);

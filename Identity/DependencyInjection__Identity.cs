@@ -1,23 +1,37 @@
 ﻿public static class DependencyInjection__Identity
 {
+	public static void AddIdentityWithUseMySql(this WebApplicationBuilder builder, string connectionString)
+	{
+		builder.Services.AddDbContext<IdentDbContext>(options => options
+			.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+		AddDefaultIdentity(builder);
+	}
+
 	public static void AddIdentityWithUseSqlServer(this WebApplicationBuilder builder, string connectionString)
 	{
-		builder.Services.AddDbContext<IdentDbContext>(options => options.UseSqlServer(connectionString));
+		builder.Services.AddDbContext<IdentDbContext>(options => options
+			.UseSqlServer(connectionString));
 		AddDefaultIdentity(builder);
+
 	}
 
 
 	public static void AddIdentityWithUseSqlite(this WebApplicationBuilder builder,
 		string connectionString = "Filename=Data/Identity.DbContext.db")
 	{
-		builder.Services.AddDbContext<IdentDbContext>(options => options.UseSqlite(connectionString));
+		builder.Services.AddDbContext<IdentDbContext>(options => options
+			.UseSqlite(connectionString));
+
 		AddDefaultIdentity(builder);
 	}
 
 	public static void AddIdentityWithUseInMemory(this WebApplicationBuilder builder,
 		string connectionString = "Identity.DbContext")
 	{
-		builder.Services.AddDbContext<IdentDbContext>(options => options.UseInMemoryDatabase(connectionString));
+		builder.Services.AddDbContext<IdentDbContext>(options => options
+			.UseInMemoryDatabase(connectionString));
+
 		AddDefaultIdentity(builder);
 	}
 

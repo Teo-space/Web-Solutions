@@ -6,7 +6,7 @@ using Web.Forums.Infrastructure.EntityFrameworkCore;
 
 public static class DependencyInjection__ForumsInfrastructure
 {
-	public static void AddForumInfrastructure(this WebApplicationBuilder builder)
+	public static void AddForumInfrastructure(this WebApplicationBuilder builder, string connectionString)
 	{
 		builder.Services.AddLogging();
 
@@ -14,13 +14,10 @@ public static class DependencyInjection__ForumsInfrastructure
 		builder.Services.AddFluentValidationClientsideAdapters();
 		builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-		var connectionStringForum = builder.Configuration.GetConnectionString("MariaDbConnectionForum")
-			?? throw new InvalidOperationException("Connection string 'MariaDbConnectionForum' not found.");
-
 		builder.Services.AddDbContext<ForumDbContext>(options =>
 		{
 			//options.UseSqlServer(connectionString)
-			options.UseMySql(connectionStringForum, ServerVersion.AutoDetect(connectionStringForum));
+			options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 			
 		});
 

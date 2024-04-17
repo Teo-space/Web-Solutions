@@ -7,7 +7,6 @@ namespace Identity.Infrastructure.Services;
 
 internal class RootUserInitializerService(
 			ILogger<RootUserInitializerService> logger,
-
 			RoleManager roleManager,
 			IOptions<RootUserOptions> UserOptions,
 			UserManager userManager

@@ -57,6 +57,7 @@
 	
 	<ItemGroup>
 	  <Folder Include="Data\" />
+	  <Folder Include="Consts\" />
 	</ItemGroup>
 
 </Project>

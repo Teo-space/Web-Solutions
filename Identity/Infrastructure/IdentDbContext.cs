@@ -1,11 +1,18 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 
 
 
 public class IdentDbContext 
 	: IdentityDbContext<User, Role, TKey, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
+	public override DbSet<User> Users { get; set; }
+	public override DbSet<Role> Roles { get; set; }
+	public override DbSet<UserClaim> UserClaims { get; set; }
+	public override DbSet<UserRole> UserRoles { get; set; }
+	public override DbSet<RoleClaim> RoleClaims { get; set; }
+	public override DbSet<UserLogin> UserLogins { get; set; }
+	public override DbSet<UserToken> UserTokens { get; set; }
+
 
 	public IdentDbContext(DbContextOptions<IdentDbContext> options) : base(options) 
     {
@@ -19,10 +26,9 @@ public class IdentDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        //modelBuilder.HasDefaultSchema("Identity");
-        TableProperties(modelBuilder);
+		//modelBuilder.HasDefaultSchema("Identity");
+		TableProperties(modelBuilder);
         TableRelations(modelBuilder);
-
     }
 
 
@@ -30,25 +36,21 @@ public class IdentDbContext
     {
         modelBuilder.Entity<User>(b =>
         {
-            // Each User can have many UserClaims
             b.HasMany(e => e.Claims)
                 .WithOne(e => e.User)
                 .HasForeignKey(uc => uc.UserId)
                 .IsRequired();
 
-            // Each User can have many UserLogins
             b.HasMany(e => e.Logins)
                 .WithOne(e => e.User)
                 .HasForeignKey(ul => ul.UserId)
                 .IsRequired();
 
-            // Each User can have many UserTokens
             b.HasMany(e => e.Tokens)
                 .WithOne(e => e.User)
                 .HasForeignKey(ut => ut.UserId)
                 .IsRequired();
 
-            // Each User can have many entries in the UserRole join table
             b.HasMany(e => e.UserRoles)
                 .WithOne(e => e.User)
                 .HasForeignKey(ur => ur.UserId)
@@ -57,13 +59,11 @@ public class IdentDbContext
 
         modelBuilder.Entity<Role>(b =>
         {
-            // Each Role can have many entries in the UserRole join table
             b.HasMany(e => e.UserRoles)
                 .WithOne(e => e.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
 
-            // Each Role can have many associated RoleClaims
             b.HasMany(e => e.RoleClaims)
                 .WithOne(e => e.Role)
                 .HasForeignKey(rc => rc.RoleId)

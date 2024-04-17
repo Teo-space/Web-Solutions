@@ -8,7 +8,9 @@ namespace Identity.Infrastructure.Initializers
 		{
 			using (var scope = serviceProvider.CreateScope())
 			{
-				var basicRolesInitializerService = scope.ServiceProvider.GetRequiredService<IBasicRolesInitializerService>();
+				var basicRolesInitializerService = scope.ServiceProvider
+					.GetRequiredService<IBasicRolesInitializerService>();
+
 				basicRolesInitializerService.Initialize().Wait();
 			}
 		}
