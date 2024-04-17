@@ -24,13 +24,12 @@ public record QueryForumDisplayNextPage(IDType ForumId, DateTime Replied) : IReq
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)
-				.Include(s => s.Forums).AsNoTracking()
-				.Include(s => s.Announcements).AsNoTracking()
+				.Include(s => s.Forums)
+				.Include(s => s.Announcements)
 				.Include(s => s.Topics
 					.OrderByDescending(x => x.RepliedBy.At)
 					.Where(x => x.RepliedBy.At < request.Replied)
 					.Take(Forum.TopicsPageSize))
-				.AsNoTracking()
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (forum is null)
@@ -42,8 +41,19 @@ public record QueryForumDisplayNextPage(IDType ForumId, DateTime Replied) : IReq
 			//	return Results.Deleted<Forum>(request.ForumId.ToString());
 			//}
 
-			forum.Viewed();
-			await forumDbContext.SaveChangesAsync();
+			//forum.Viewed();
+			//await forumDbContext.SaveChangesAsync();
+			//var task = async () => await forumDbContext.SaveChangesAsync();
+			//Task.Run(task);
+
+			if (forum.IsNotRoot)
+			{
+				var task = forumDbContext.Forums
+					.Where(f => f.ForumId == request.ForumId)
+					.ExecuteUpdateAsync(setter => setter.SetProperty(x => x.Views, f => f.Views + 1));
+
+				task.ContinueWith(t => { }, TaskContinuationOptions.OnlyOnFaulted);
+			}
 
 			return Results.Ok(forum);
 		}

@@ -17,7 +17,8 @@ public record QueryForumExistsByTitle(string Title) : IRequest<bool>
 	{
 		public override async Task<bool> Handle(QueryForumExistsByTitle request, CancellationToken cancellationToken)
 		{
-			return await forumDbContext.Forums.AsNoTracking()
+			return await forumDbContext.Forums
+				.AsNoTracking()
 				.Where(f => f.Title == request.Title)
 				.AnyAsync(cancellationToken);
 		}

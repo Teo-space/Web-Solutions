@@ -1,4 +1,6 @@
-﻿namespace Web.Forums.UseCases.Forums.ReadModel;
+﻿using System.Threading.Tasks;
+
+namespace Web.Forums.UseCases.Forums.ReadModel;
 
 
 public record QueryForumDisplay(IDType ForumId) : IRequest<Result<Forum>>
@@ -18,16 +20,17 @@ public record QueryForumDisplay(IDType ForumId) : IRequest<Result<Forum>>
 	{
 		public override async Task<Result<Forum>> Handle(QueryForumDisplay request, CancellationToken cancellationToken)
 		{
-			var forum = await forumDbContext.Forums.AsNoTracking()
+			var forum = await forumDbContext.Forums
+				.AsNoTracking()
 				.Where(f => f.ForumId == request.ForumId)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)
-				.Include(s => s.Forums.OrderBy(x => x.CreatedBy.At)).AsNoTracking()
-				.Include(s => s.Announcements.OrderBy(x => x.CreatedBy.At)).AsNoTracking()
+				.Include(s => s.Forums.OrderBy(x => x.CreatedBy.At))
+				.Include(s => s.Announcements.OrderBy(x => x.CreatedBy.At))
 				.Include(s => s.Topics
 					.OrderByDescending(x => x.RepliedBy.At)
-					.Take(Forum.TopicsPageSize)).AsNoTracking()
+					.Take(Forum.TopicsPageSize))
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (forum is null)
@@ -39,8 +42,19 @@ public record QueryForumDisplay(IDType ForumId) : IRequest<Result<Forum>>
 			//	return Results.Deleted<Forum>(request.ForumId.ToString());
 			//}
 
-			forum.Viewed();
-			await forumDbContext.SaveChangesAsync();
+			//forum.Viewed();
+			//await forumDbContext.SaveChangesAsync();
+			//var task = async () => await forumDbContext.SaveChangesAsync();
+			//Task.Run(task);
+
+			if (forum.IsNotRoot)
+			{
+				var task = forumDbContext.Forums
+					.Where(f => f.ForumId == request.ForumId)
+					.ExecuteUpdateAsync(setter => setter.SetProperty(x => x.Views, f => f.Views + 1));
+
+				task.ContinueWith(t => { }, TaskContinuationOptions.OnlyOnFaulted);
+			}
 
 			return Results.Ok(forum);
 		}

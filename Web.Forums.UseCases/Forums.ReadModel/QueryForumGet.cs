@@ -17,7 +17,8 @@ public record QueryForumGet(IDType ForumId) : IRequest<Result<Forum>>
 	{
 		public override async Task<Result<Forum>> Handle(QueryForumGet request, CancellationToken cancellationToken)
 		{
-			var forum = await forumDbContext.Forums.AsNoTracking()
+			var forum = await forumDbContext.Forums
+				.AsNoTracking()
 				.Where(f => f.ForumId == request.ForumId)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)

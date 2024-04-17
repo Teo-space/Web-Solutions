@@ -28,11 +28,15 @@ public class Announcement
 	public UserAction CreatedBy { get; set; }
 	public UserAction UpdatedBy { get; set; }
 
-	public void SetCreatedBy(PrincipalUser user) => CreatedBy = new UserAction(user.UserId, user.UserName, DateTime.Now);
-	public void SetCreatedBy(Guid UserId, string UserName) => CreatedBy = new UserAction(UserId, UserName, DateTime.Now);
+	public void SetCreatedBy(PrincipalUser user) 
+		=> CreatedBy = new UserAction(user.UserId, user.UserName, DateTime.Now);
+	public void SetCreatedBy(Guid UserId, string UserName) 
+		=> CreatedBy = new UserAction(UserId, UserName, DateTime.Now);
 
-	public void SetUpdatedBy(PrincipalUser user) => UpdatedBy = new UserAction(user.UserId, user.UserName, DateTime.Now);
-	public void SetUpdatedBy(Guid UserId, string UserName) => UpdatedBy = new UserAction(UserId, UserName, DateTime.Now);
+	public void SetUpdatedBy(PrincipalUser user) 
+		=> UpdatedBy = new UserAction(user.UserId, user.UserName, DateTime.Now);
+	public void SetUpdatedBy(Guid UserId, string UserName) 
+		=> UpdatedBy = new UserAction(UserId, UserName, DateTime.Now);
 
 
 
@@ -108,8 +112,6 @@ public class Announcement
 	/// Куратор Парента, 
 	/// Автор (Если топик, форум и парент не закрыты)
 	/// </summary>
-	/// <param name="user"></param>
-	/// <returns></returns>
 	public bool CanEdit(ClaimsPrincipal principal) => CanEdit(new PrincipalUser(principal));
 	public bool CanEdit(PrincipalUser user) => user.IsValid ? IsAdmin(user) || IsCurator(user) : false;
 
