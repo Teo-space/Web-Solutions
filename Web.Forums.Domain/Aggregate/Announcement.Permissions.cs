@@ -13,47 +13,57 @@ public sealed partial class Announcement
 		=> new AnnouncementPermissions(this, user);
 
 
-	public bool IsAdmin(PrincipalUser user) => user.IsInRole(nameof(ForumRoles.ForumRoleAdmin));
+	public bool IsAdmin(PrincipalUser user)
+	{
+		return user.IsValid && user.IsInRole(nameof(ForumRoles.ForumRoleAdmin));
+	}
 
 	public bool IsCurator(PrincipalUser user)
 	{
-		if (Forum.Curators.Any(x => x.UserId == user.UserId))
+		if(user.IsValid)
 		{
-			return true;
+			if (Forum.Curators.Any(x => x.UserId == user.UserId))
+			{
+				return true;
+			}
+			else if (Forum?.ParentForum?.Curators.Any(x => x.UserId == user.UserId) ?? false)
+			{
+				return true;
+			}
 		}
-		else if (Forum?.ParentForum?.Curators.Any(x => x.UserId == user.UserId) ?? false)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	public bool IsParentCurator(PrincipalUser user)
-		=> Forum?.ParentForum?.Curators.Any(x => x.UserId == user.UserId) ?? false;
+	{
+		return user.IsValid && (Forum?.ParentForum?.Curators.Any(x => x.UserId == user.UserId) ?? false);
+	}
 
 	public bool IsModerator(PrincipalUser user)
 	{
-		if (user.IsInRole(nameof(ForumRoles.ForumRoleModerator)))
+		if (user.IsValid)
 		{
-			return true;
+			if (user.IsInRole(nameof(ForumRoles.ForumRoleModerator)))
+			{
+				return true;
+			}
+			else if (Forum.Moderators.Any(x => x.UserId == user.UserId))
+			{
+				return true;
+			}
+			else if (Forum?.ParentForum?.Moderators.Any(x => x.UserId == user.UserId) ?? false)
+			{
+				return true;
+			}
 		}
-		else if (Forum.Moderators.Any(x => x.UserId == user.UserId))
-		{
-			return true;
-		}
-		else if (Forum?.ParentForum?.Moderators.Any(x => x.UserId == user.UserId) ?? false)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
-	public bool IsAuthor(PrincipalUser user) => CreatedBy.UserId == user.UserId;
+	public bool IsAuthor(PrincipalUser user)
+	{
+		return user.IsValid && CreatedBy.UserId == user.UserId;
+	}
 
 }

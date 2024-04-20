@@ -6,7 +6,7 @@ public sealed partial class Announcement
 {
 
 	public bool CanDelete(ClaimsPrincipal principal) => CanDelete(new PrincipalUser(principal));
-	public bool CanDelete(PrincipalUser user) => user.IsValid && (IsAdmin(user) || IsCurator(user));
+	public bool CanDelete(PrincipalUser user) => (IsAdmin(user) || IsCurator(user));
 
 	public Result<Announcement> Delete(ClaimsPrincipal principal, string comment)
 		=> Delete(new PrincipalUser(principal), comment);
