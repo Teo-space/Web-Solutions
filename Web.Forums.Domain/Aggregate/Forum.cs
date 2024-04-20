@@ -1,10 +1,5 @@
 ﻿namespace Web.Forums.Domain.Aggregate;
 
-using System.Security.Claims;
-using Web.Forums.Domain.Enums;
-using Web.Forums.Domain.Owned;
-using Web.Forums.Domain.Permissions;
-
 public sealed partial class Forum
 {
 	public IDType? ParentForumId { get; set; }
