@@ -7,6 +7,11 @@ public sealed partial class Post
 
 	public bool CanEdit(PrincipalUser user)
 	{
+		if (Topic?.Forum is null)
+		{
+			throw new Exception("Topic?.Forum not included");
+		}
+
 		return Topic.Forum.IsAdmin(user) || Topic.Forum.IsCurator(user);
 	}
 

@@ -6,11 +6,12 @@ public sealed partial class Post
 {
 	public bool CanDelete(PrincipalUser user)
 	{
-		if (user.IsValid)
+		if (Topic?.Forum is null)
 		{
-			return Topic.Forum.IsAdmin(user) || Topic.Forum.IsCurator(user);
+			throw new Exception("Topic?.Forum not included");
 		}
-		return false;
+
+		return Topic.Forum.IsAdmin(user) || Topic.Forum.IsCurator(user);
 	}
 
 	public Result<Post> Delete(ClaimsPrincipal principal, string comment)
