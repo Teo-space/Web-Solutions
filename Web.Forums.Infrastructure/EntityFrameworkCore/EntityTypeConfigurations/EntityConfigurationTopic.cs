@@ -10,14 +10,10 @@ public class EntityConfigurationTopic : IEntityTypeConfiguration<Topic>
 		builder.ToTable("Topics");
 
 		builder.HasKey(x => x.TopicId);
-		builder.Property(x => x.TopicId)
-			.HasConversion(x => x.ToGuid(), x => new Ulid(x))
-			;
+		builder.Property(x => x.TopicId);
 
 		builder.HasIndex(x => x.ForumId);
-		builder.Property(x => x.ForumId)
-			.HasConversion(x => x.ToGuid(), x => new Ulid(x))
-			;
+		builder.Property(x => x.ForumId);
 
 
 		builder.HasIndex(x => x.Title).IsUnique();

@@ -11,13 +11,10 @@ public class EntityConfigurationForum : IEntityTypeConfiguration<Forum>
 
 
 		builder.HasIndex(x => x.ForumId).IsDescending(true).IsClustered(true);
-		builder.Property(x => x.ForumId)
-			.HasConversion(x => x.ToGuid(), x => new Ulid(x));
-		;
+		builder.Property(x => x.ForumId);
+
 		builder.HasIndex(x => x.ParentForumId);
-		builder.Property(x => x.ParentForumId)
-			.HasConversion(x => x.HasValue ? x.Value.ToGuid() : default, x => new Ulid(x));
-			;
+		builder.Property(x => x.ParentForumId);
 
 		builder.HasIndex(x => x.Title).IsUnique();
 		builder.Property(x => x.Title).HasMaxLength(50).IsConcurrencyToken();
@@ -70,25 +67,18 @@ public class EntityConfigurationForum : IEntityTypeConfiguration<Forum>
 		builder.HasMany(f => f.Edits).WithOne()
 			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.OwnerId)
 			.OnDelete(DeleteBehavior.NoAction);
-		//builder.Navigation(f => f.Edits).AutoInclude();
 
 		builder.HasMany(f => f.Moderations).WithOne()
 			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.OwnerId)
 			.OnDelete(DeleteBehavior.NoAction);
-		//builder.Navigation(f => f.Moderations).AutoInclude();
-
 
 		builder.HasMany(f => f.Curators).WithOne()
 			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ParentId)
 			.OnDelete(DeleteBehavior.NoAction);
-		//builder.Navigation(f => f.Curators).AutoInclude();
 
 		builder.HasMany(f => f.Moderators).WithOne()
 			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ParentId)
 			.OnDelete(DeleteBehavior.NoAction);
-		//builder.Navigation(f => f.Moderators).AutoInclude();
-
-
 
 
 		builder.HasMany(parent => parent.Forums).WithOne(child => child.ParentForum)

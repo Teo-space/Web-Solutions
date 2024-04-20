@@ -10,14 +10,10 @@ public class EntityConfigurationPost : IEntityTypeConfiguration<Post>
 		builder.ToTable("Post");
 
 		builder.HasKey(x => x.PostId);
-		builder.Property(x => x.PostId)
-			.HasConversion(x => x.ToGuid(), x => new Ulid(x))
-			;
+		builder.Property(x => x.PostId);
 
 		builder.HasIndex(x => x.TopicId);
-		builder.Property(x => x.TopicId)
-			.HasConversion(x => x.ToGuid(), x => new Ulid(x))
-			;
+		builder.Property(x => x.TopicId);
 
 
 		builder.Property(x => x.Text).HasMaxLength(500).IsConcurrencyToken();

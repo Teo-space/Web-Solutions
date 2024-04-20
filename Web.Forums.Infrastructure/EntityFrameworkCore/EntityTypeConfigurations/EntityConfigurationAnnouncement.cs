@@ -10,14 +10,10 @@ public class EntityConfigurationAnnouncement : IEntityTypeConfiguration<Announce
 		builder.ToTable("Announcements");
 
 		builder.HasKey(x => x.AnnouncementId);
-		builder.Property(x => x.AnnouncementId)
-			.HasConversion(x => x.ToGuid(), x => new Ulid(x))
-			;
+		builder.Property(x => x.AnnouncementId);
 
 		builder.HasIndex(x => x.ForumId);
-		builder.Property(x => x.ForumId)
-			.HasConversion(x => x.ToGuid(), x => new Ulid(x))
-			;
+		builder.Property(x => x.ForumId);
 
 
 		builder.HasIndex(x => x.Title).IsUnique();

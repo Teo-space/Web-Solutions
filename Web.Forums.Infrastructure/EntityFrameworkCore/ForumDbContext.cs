@@ -1,4 +1,5 @@
 ﻿using Web.Forums.Domain.Aggregate;
+using Web.Forums.Infrastructure.EntityFrameworkCore.Convertors;
 
 namespace Web.Forums.Infrastructure.EntityFrameworkCore;
 
@@ -15,6 +16,11 @@ public class ForumDbContext : DbContext
 		optionsBuilder.EnableDetailedErrors();
 		optionsBuilder.EnableSensitiveDataLogging();
 		optionsBuilder.LogTo(Console.WriteLine, minimumLevel: Microsoft.Extensions.Logging.LogLevel.Information);
+	}
+
+	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+	{
+		configurationBuilder.Properties<Ulid>().HaveConversion<UlidToGuidConvertor>();
 	}
 
 	protected override void OnModelCreating(ModelBuilder builder)

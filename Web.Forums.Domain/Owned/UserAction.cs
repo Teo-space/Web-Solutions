@@ -2,11 +2,12 @@
 
 
 
-public record UserAction(Guid UserId, string UserName, DateTime At)
-{
-
-
-}
+public record UserAction
+(
+	Guid UserId, 
+	string UserName, 
+	DateTime At
+);
 
 
 

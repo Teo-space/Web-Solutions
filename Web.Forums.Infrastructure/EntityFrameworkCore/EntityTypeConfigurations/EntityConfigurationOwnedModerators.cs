@@ -9,10 +9,10 @@ public class EntityConfigurationOwnedModerators : IEntityTypeConfiguration<Moder
 		builder.ToTable("Owned.Moderators");
 
 		builder.HasIndex(x => x.ParentId);
-		builder.Property(x => x.ParentId).HasConversion(x => x.ToGuid(), x => new Ulid(x));
+		builder.Property(x => x.ParentId);
 
 		builder.HasKey(x => x.ModeratorId);
-		builder.Property(x => x.ModeratorId).IsRequired().HasConversion(x => x.ToGuid(), x => new Ulid(x));
+		builder.Property(x => x.ModeratorId).IsRequired();
 		builder.Property(x => x.UserId).IsRequired();
 		builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
 	}
