@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Topics.WriteModel;
 
 
-public record CommandTopicEdit(IDType TopicId, string Title, string Text) : IRequest<Result<Topic>>
+public record CommandTopicEdit(IdentityType TopicId, string Title, string Text) : IRequest<Result<Topic>>
 {
 	public class Validator : AbstractValidator<CommandTopicEdit>
 	{
@@ -42,11 +42,13 @@ public record CommandTopicEdit(IDType TopicId, string Title, string Text) : IReq
 			{
 				return Results.NotFoundById<Topic>(request.TopicId);
 			}
+
 			var result = Topic.Edit(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

@@ -7,17 +7,15 @@ public sealed partial class Forum
 {
 	public List<Moderation> Moderations { get; set; } = new List<Moderation>();
 
-	public Moderation Moderated(ClaimsPrincipal principal, string ActionName, IDType ObjectId, string Comment)
+	public Moderation Moderated(ClaimsPrincipal principal, string ActionName, IdentityType ObjectId, string Comment)
 	{
 		return Moderated(new PrincipalUser(principal), ActionName, ObjectId, Comment);
 	}
-	public Moderation Moderated(PrincipalUser user, string ActionName, IDType ObjectId, string Comment)
+	public Moderation Moderated(PrincipalUser user, string ActionName, IdentityType ObjectId, string Comment)
 	{
-		var moderatorAction = new Moderation(ForumId, Ulid.NewUlid(),
-			user.UserId, user.UserName,
-			ActionName, ObjectId, Comment);
-
+		var moderatorAction = Moderation.Create(this, user.UserId, user.UserName, ActionName, ObjectId, Comment);
 		Moderations.Add(moderatorAction);
+
 		return moderatorAction;
 	}
 }

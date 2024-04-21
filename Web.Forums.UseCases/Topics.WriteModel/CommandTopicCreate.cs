@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Topics.WriteModel;
 
 
-public record CommandTopicCreate(IDType ForumId, string Title, string Text) : IRequest<Result<Topic>>
+public record CommandTopicCreate(IdentityType ForumId, string Title, string Text) : IRequest<Result<Topic>>
 {
 	public class Validator : AbstractValidator<CommandTopicCreate>
 	{
@@ -45,12 +45,14 @@ public record CommandTopicCreate(IDType ForumId, string Title, string Text) : IR
 			{
 				return Results.NotFoundById<Topic>(request.ForumId);
 			}
+
 			var result = ParentForum.CreateTopic(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)
 			{
 				await dbContext.AddAsync(result.Value);
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

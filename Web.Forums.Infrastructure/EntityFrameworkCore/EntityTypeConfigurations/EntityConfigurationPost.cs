@@ -10,7 +10,7 @@ public class EntityConfigurationPost : IEntityTypeConfiguration<Post>
 		builder.ToTable("Post");
 
 		builder.HasKey(x => x.PostId);
-		builder.Property(x => x.PostId);
+		builder.Property(x => x.PostId);//.ValueGeneratedOnAdd();
 
 		builder.HasIndex(x => x.TopicId);
 		builder.Property(x => x.TopicId);
@@ -22,14 +22,14 @@ public class EntityConfigurationPost : IEntityTypeConfiguration<Post>
 			builder.OwnsOne(f => f.CreatedBy, owned =>
 			{
 				owned.Property(x => x.UserId).IsRequired();
-				owned.Property(x => x.UserName).IsRequired();
+				owned.Property(x => x.UserName).IsRequired().HasMaxLength(100);
 				owned.Property(x => x.At).IsRequired();
 			});
 
 			builder.OwnsOne(f => f.UpdatedBy, owned =>
 			{
 				owned.Property(x => x.UserId).IsRequired();
-				owned.Property(x => x.UserName).IsRequired();
+				owned.Property(x => x.UserName).IsRequired().HasMaxLength(100);
 				owned.Property(x => x.At).IsRequired();
 			});
 		}

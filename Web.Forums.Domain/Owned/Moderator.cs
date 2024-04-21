@@ -1,11 +1,27 @@
-﻿namespace Web.Forums.Domain.Owned;
+﻿using Web.Forums.Domain.Aggregate;
+
+namespace Web.Forums.Domain.Owned;
 
 
 
 public record Moderator
-(
-	IDType ParentId,
-	IDType ModeratorId, 
+{
+	public IdentityType ForumId { get; init; }
+	public Forum Forum { get; init; }
 
-	Guid UserId, string UserName
-);
+	public required IdentityType ModeratorId { get; init; }
+
+
+	public required Guid UserId { get; init; }
+	public required string UserName { get; init; }
+
+	private Moderator() { }
+	public static Moderator Create(Forum Forum, Guid UserId, string UserName)
+		=> new Moderator()
+		{
+			Forum = Forum,
+			ModeratorId = IdentityType.NewUlid(),
+			UserId = UserId,
+			UserName = UserName
+		};
+}

@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Posts.WriteModel;
 
 
-public record CommandPostCreate(IDType TopicId, string Text) : IRequest<Result<Post>>
+public record CommandPostCreate(IdentityType TopicId, string Text) : IRequest<Result<Post>>
 {
 	public class Validator : AbstractValidator<CommandPostCreate>
 	{
@@ -33,12 +33,14 @@ public record CommandPostCreate(IDType TopicId, string Text) : IRequest<Result<P
 			{
 				return Results.ParentNotFoundById<Post>(request.TopicId);
 			}
+
 			var result = Topic.CreatePost(userAccessor.GetUserThrowIfIsNull(), request.Text);
 			if (result.Success)
 			{
 				await dbContext.AddAsync(result.Value);
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

@@ -2,10 +2,10 @@
 
 public sealed partial class Forum
 {
-	public IDType? ParentForumId { get; set; }
+	public IdentityType? ParentForumId { get; set; }
 	public Forum ParentForum { get; set; }
 
-	public IDType ForumId { get; set; }
+	public IdentityType ForumId { get; set; }
 
 
 	public string Title { get; set; }

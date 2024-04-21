@@ -3,17 +3,16 @@
 public sealed partial class Forum
 {
 
-	public static IDType RootId = IDType.Empty;
+	public static IdentityType RootId = IdentityType.Empty;
 	public bool IsRoot => ForumId == RootId;
 	public bool IsNotRoot => ForumId != RootId;
 	public bool ParentIsRoot => ParentForumId == RootId;
 
 
-	public static Forum RootForum()
+	public static Forum RootForum(PrincipalUser user)
 	{
-		var user = new PrincipalUser(Guid.Empty, "Root");
 		var forum = new Forum();
-		forum.ForumId = Ulid.Empty;
+		forum.ForumId = RootId;
 
 
 		forum.Title = "Forums";

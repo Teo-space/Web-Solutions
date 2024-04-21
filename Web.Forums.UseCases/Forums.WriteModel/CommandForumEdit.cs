@@ -2,7 +2,7 @@
 
 
 
-public record CommandForumEdit(IDType ForumId, string Title, string Description) : IRequest<Result<Forum>>
+public record CommandForumEdit(IdentityType ForumId, string Title, string Description) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<CommandForumEdit>
 	{
@@ -29,6 +29,8 @@ public record CommandForumEdit(IDType ForumId, string Title, string Description)
 		{
 			var Forum = await dbContext.Set<Forum>()
 				.Where(x => x.ForumId == request.ForumId)
+				.Include(x => x.Curators)
+				.Include(x => x.Moderators)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)
@@ -44,6 +46,7 @@ public record CommandForumEdit(IDType ForumId, string Title, string Description)
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

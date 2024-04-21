@@ -6,11 +6,10 @@ public sealed partial class Post
 	public static Post Create(Topic Topic, PrincipalUser user, string Text)
 	{
 		var post = new Post();
-
-		post.TopicId = Topic.TopicId;
 		post.Topic = Topic;
+		post.TopicId = Topic.TopicId;
 
-		post.PostId = Ulid.NewUlid();
+		post.PostId = IdentityType.NewUlid();
 
 		post.Text = Text;
 

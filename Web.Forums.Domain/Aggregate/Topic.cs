@@ -2,11 +2,11 @@
 
 public sealed partial class Topic
 {
-	public IDType ForumId { get; set; }
+	public IdentityType ForumId { get; set; }
 	public Forum Forum { get; set; }
 
 
-	public IDType TopicId { get; set; }
+	public IdentityType TopicId { get; set; }
 
 
 	public string Title { get; set; }

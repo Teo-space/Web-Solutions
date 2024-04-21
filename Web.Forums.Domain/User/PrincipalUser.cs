@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Web.Forums.Domain.Enums;
 
 
 public class PrincipalUser
@@ -12,6 +13,8 @@ public class PrincipalUser
 	public bool IsValid { get; private set; } = true;
 
 	public bool IsInRole(string role) => Roles.Contains(role);
+
+	public static PrincipalUser Root => new PrincipalUser(Guid.Empty, "Root", Enum.GetNames<ForumRoles>());
 
 	public PrincipalUser(Guid UserId, string UserName)
 	{
@@ -58,6 +61,5 @@ public class PrincipalUser
 			Roles = principal.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
 		}
 	}
-
 
 }

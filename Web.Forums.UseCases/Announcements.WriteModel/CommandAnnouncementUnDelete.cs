@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Announcements.WriteModel;
 
 
-public record CommandAnnouncementUnDelete(IDType AnnouncementId, string comment) : IRequest<Result<Announcement>>
+public record CommandAnnouncementUnDelete(IdentityType AnnouncementId, string comment) : IRequest<Result<Announcement>>
 {
 	public class Validator : AbstractValidator<CommandAnnouncementUnDelete>
 	{
@@ -33,11 +33,13 @@ public record CommandAnnouncementUnDelete(IDType AnnouncementId, string comment)
 			{
 				return Results.NotFoundById<Announcement>(request.AnnouncementId);
 			}
+
 			var result = Announcement.UnDelete(userAccessor.GetUserThrowIfIsNull(), request.comment);
 			if (result.Success)
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

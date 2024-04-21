@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.WriteModel;
 
 
-public record CommandForumCreate(IDType ParentForumId, string Title, string Description) : IRequest<Result<Forum>>
+public record CommandForumCreate(IdentityType ParentForumId, string Title, string Description) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<CommandForumCreate>
 	{
@@ -37,6 +37,8 @@ public record CommandForumCreate(IDType ParentForumId, string Title, string Desc
 
 			var parent = await dbContext.Set<Forum>()
 				.Where(x => x.ForumId == request.ParentForumId)
+				.Include(x => x.Curators)
+				.Include(x => x.Moderators)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)
@@ -53,6 +55,7 @@ public record CommandForumCreate(IDType ParentForumId, string Title, string Desc
 				await dbContext.AddAsync(result.Value);
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

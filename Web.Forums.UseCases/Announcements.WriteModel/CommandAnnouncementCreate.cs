@@ -1,9 +1,7 @@
-﻿using Identity.UserAccessorService;
-
-namespace Web.Forums.UseCases.Announcements.WriteModel;
+﻿namespace Web.Forums.UseCases.Announcements.WriteModel;
 
 
-public record CommandAnnouncementCreate(IDType ForumId, string Title, string Text) : IRequest<Result<Announcement>>
+public record CommandAnnouncementCreate(IdentityType ForumId, string Title, string Text) : IRequest<Result<Announcement>>
 {
 	public class Validator : AbstractValidator<CommandAnnouncementCreate>
 	{
@@ -50,12 +48,14 @@ public record CommandAnnouncementCreate(IDType ForumId, string Title, string Tex
 			{
 				return Results.ParentNotFoundById<Announcement>(request.ForumId);
 			}
+
 			var result = ParentForum.CreateAnnouncement(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)
 			{
 				await dbContext.AddAsync(result.Value);
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

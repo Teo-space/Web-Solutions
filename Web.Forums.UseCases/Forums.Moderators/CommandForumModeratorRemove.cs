@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.Moderators;
 
 
-public record CommandForumModeratorRemove(IDType ForumId, Guid UserId) : IRequest<Result<Forum>>
+public record CommandForumModeratorRemove(IdentityType ForumId, Guid UserId) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<CommandForumModeratorRemove>
 	{

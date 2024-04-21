@@ -2,11 +2,11 @@
 
 public sealed partial class Announcement
 {
-	public IDType ForumId { get; set; }
+	public IdentityType ForumId { get; set; }
 	public Forum Forum { get; set; }
 
 
-	public IDType AnnouncementId { get; set; }
+	public IdentityType AnnouncementId { get; set; }
 
 
 	public string Title { get; set; }

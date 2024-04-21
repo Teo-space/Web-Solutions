@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.Curators;
 
 
-public record CommandForumCuratorRemove(IDType ForumId, Guid UserId) : IRequest<Result<Forum>>
+public record CommandForumCuratorRemove(IdentityType ForumId, Guid UserId) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<CommandForumCuratorRemove>
 	{

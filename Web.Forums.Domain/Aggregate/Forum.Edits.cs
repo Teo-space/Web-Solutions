@@ -12,13 +12,14 @@ public sealed partial class Forum
 	{
 		return Edited(new PrincipalUser(principal), Title, Description);
 	}
+
 	public Edits Edited(PrincipalUser User, string Title, string Description)
 	{
-		var e = new Edits(ForumId, Ulid.NewUlid(),
-			Title, Description,
-			User.UserId, User.UserName);
+		//ForumId, 
+		var e = Owned.Edits.Create(this, Title, Description, User.UserId, User.UserName);
 
 		Edits.Add(e);
 		return e;
 	}
+
 }

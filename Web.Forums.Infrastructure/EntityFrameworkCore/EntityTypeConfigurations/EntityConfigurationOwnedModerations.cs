@@ -8,14 +8,17 @@ public class EntityConfigurationOwnedModerations : IEntityTypeConfiguration<Mode
 	{
 		builder.ToTable("Owned.Moderations");
 
-		builder.HasIndex(x => x.OwnerId);
-		builder.Property(x => x.OwnerId);
-
 		builder.HasKey(x => x.ModerationId);
-		builder.Property(x => x.ModerationId);
+		builder.Property(x => x.ModerationId);//.ValueGeneratedOnAdd();
 
-		builder.Property(x => x.ModeratedByUserId).IsRequired();
-		builder.Property(x => x.ModeratedByUserName).IsRequired();
+		builder.HasIndex(x => x.ForumId);
+		builder.Property(x => x.ForumId);
+
+
+
+		builder.Property(x => x.UserId).IsRequired();
+		builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
+
 		builder.Property(x => x.ActionName).IsRequired().HasMaxLength(100);
 		builder.Property(x => x.ObjectId).IsRequired();
 		builder.Property(x => x.Comment).HasMaxLength(500);

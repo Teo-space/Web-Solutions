@@ -3,11 +3,21 @@
 
 
 public record UserAction
-(
-	Guid UserId, 
-	string UserName, 
-	DateTime At
-);
+{
+	public Guid UserId {  get; init; } 
+	public string UserName {  get; init; } 
+	public DateTime At {  get; init; }
+
+	public static UserAction Create(Guid UserId, string UserName)
+	{
+		return new UserAction()
+		{
+			UserId = UserId,
+			UserName = UserName,
+			At = DateTime.Now,
+		};
+	}
+}
 
 
 

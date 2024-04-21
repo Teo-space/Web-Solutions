@@ -9,13 +9,13 @@ public sealed partial class Post
 	public UserAction UpdatedBy { get; set; }
 
 	public void SetCreatedBy(PrincipalUser user)
-		=> CreatedBy = new UserAction(user.UserId, user.UserName, DateTime.Now);
+		=> CreatedBy = UserAction.Create(user.UserId, user.UserName);
 	public void SetCreatedBy(Guid UserId, string UserName)
-		=> CreatedBy = new UserAction(UserId, UserName, DateTime.Now);
+		=> CreatedBy = UserAction.Create(UserId, UserName);
 
 	public void SetUpdatedBy(PrincipalUser user)
-		=> UpdatedBy = new UserAction(user.UserId, user.UserName, DateTime.Now);
+		=> UpdatedBy = UserAction.Create(user.UserId, user.UserName);
 	public void SetUpdatedBy(Guid UserId, string UserName)
-		=> UpdatedBy = new UserAction(UserId, UserName, DateTime.Now);
+		=> UpdatedBy = UserAction.Create(UserId, UserName);
 
 }

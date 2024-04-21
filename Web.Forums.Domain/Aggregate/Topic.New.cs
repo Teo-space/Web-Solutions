@@ -5,20 +5,21 @@ public sealed partial class Topic
 
 	public static Topic Create(Forum Forum, PrincipalUser user, string Title, string Text)
 	{
-		var x = new Topic();
-		x.ForumId = Forum.ForumId;
-		x.Forum = Forum;
+		var topic = new Topic();
+		topic.Forum = Forum;
+		topic.ForumId = Forum.ForumId;
 
-		x.TopicId = Ulid.NewUlid();
+		topic.TopicId = IdentityType.NewUlid();
 
 
-		x.Title = Title;
-		x.Text = Text;
+		topic.Title = Title;
+		topic.Text = Text;
 
-		x.SetCreatedBy(user);
-		x.SetUpdatedBy(user);
-		x.SetRepliedBy(user);
-		return x;
+		topic.SetCreatedBy(user);
+		topic.SetUpdatedBy(user);
+		topic.SetRepliedBy(user);
+
+		return topic;
 	}
 
 }

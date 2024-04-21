@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.WriteModel;
 
 
-public record CommandForumOpen(IDType ForumId, string comment) : IRequest<Result<Forum>>
+public record CommandForumOpen(IdentityType ForumId, string comment) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<CommandForumOpen>
 	{
@@ -19,10 +19,13 @@ public record CommandForumOpen(IDType ForumId, string comment) : IRequest<Result
 		public override async Task<Result<Forum>> Handle(CommandForumOpen request, CancellationToken cancellationToken)
 		{
 			var forum = await dbContext.Set<Forum>()
+				.Where(x => x.ForumId == request.ForumId)
+				.Include(x => x.Curators)
+				.Include(x => x.Moderators)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)
-				.FirstOrDefaultAsync(x => x.ForumId == request.ForumId);
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (forum is null)
 			{
@@ -34,6 +37,7 @@ public record CommandForumOpen(IDType ForumId, string comment) : IRequest<Result
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Announcements.ReadModel;
 
 
-public record QueryAnnouncementDisplay(IDType AnnouncementId) : IRequest<Result<Announcement>>
+public record QueryAnnouncementDisplay(IdentityType AnnouncementId) : IRequest<Result<Announcement>>
 {
 	public class Validator : AbstractValidator<QueryAnnouncementDisplay>
 	{

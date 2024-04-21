@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.ReadModel;
 
 
-public record QueryForumGet(IDType ForumId) : IRequest<Result<Forum>>
+public record QueryForumGet(IdentityType ForumId) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<QueryForumGet>
 	{
@@ -19,7 +19,10 @@ public record QueryForumGet(IDType ForumId) : IRequest<Result<Forum>>
 		{
 			var forum = await forumDbContext.Forums
 				.AsNoTracking()
+				.AsSplitQuery()
 				.Where(f => f.ForumId == request.ForumId)
+				.Include(x => x.Curators)
+				.Include(x => x.Moderators)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)

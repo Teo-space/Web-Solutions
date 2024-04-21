@@ -5,10 +5,10 @@ public sealed partial class Announcement
 	public static Announcement Create(Forum Forum, PrincipalUser user, string Title, string Text)
 	{
 		var announcement = new Announcement();
-		announcement.ForumId = Forum.ForumId;
 		announcement.Forum = Forum;
+		announcement.ForumId = Forum.ForumId;
 
-		announcement.AnnouncementId = Ulid.NewUlid();
+		announcement.AnnouncementId = IdentityType.NewUlid();
 
 		announcement.Title = Title;
 		announcement.Text = Text;

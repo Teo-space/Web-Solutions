@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.Curators;
 
 
-public record CommandForumCuratorAdd(IDType ForumId, Guid UserId, string UserName) : IRequest<Result<Forum>>
+public record CommandForumCuratorAdd(IdentityType ForumId, Guid UserId, string UserName) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<CommandForumCuratorAdd>
 	{

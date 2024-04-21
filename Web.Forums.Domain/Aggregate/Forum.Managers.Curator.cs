@@ -23,6 +23,7 @@ public sealed partial class Forum
 			}
 
 			Curators.Add(curator);
+
 			this.Moderated(user, $"AddCurator", ForumId, curator.UserName);
 
 			return Results.Ok(this);

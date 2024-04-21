@@ -22,8 +22,9 @@ public sealed partial class Forum
 	{
 		if (CanCreateForum(user))
 		{
-			var forum = Create(this, user, Title, Description);
+			var forum = Forum.Create(this, user, Title, Description);
 			Forums.Add(forum);
+
 			return Results.Ok(forum);
 		}
 		else
@@ -36,10 +37,10 @@ public sealed partial class Forum
 	public static Forum Create(Forum Parent, PrincipalUser user, string Title, string Description)
 	{
 		var forum = new Forum();
-		forum.ParentForumId = Parent.ForumId;
-		forum.ParentForum = Parent;
+		//forum.ParentForum = Parent;
+		//forum.ParentForumId = Parent.ForumId;
 
-		forum.ForumId = Ulid.NewUlid();
+		forum.ForumId = IdentityType.NewUlid();
 
 
 		forum.Title = Title;

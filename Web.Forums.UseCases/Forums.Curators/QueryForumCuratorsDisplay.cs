@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.Curators.ReadModel;
 
 
-public record QueryForumCuratorsDisplay(IDType ForumId) : IRequest<Result<Forum>>
+public record QueryForumCuratorsDisplay(IdentityType ForumId) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<QueryForumCuratorsDisplay>
 	{
@@ -29,6 +29,7 @@ public record QueryForumCuratorsDisplay(IDType ForumId) : IRequest<Result<Forum>
 			{
 				return Results.NotFoundById<Forum>(request.ForumId);
 			}
+
 			return Results.Ok(forum);
 		}
 	}

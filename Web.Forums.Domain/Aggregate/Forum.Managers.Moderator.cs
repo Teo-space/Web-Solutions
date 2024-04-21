@@ -10,6 +10,7 @@ public sealed partial class Forum
 
 	public Result<Moderator> AddModerator(ClaimsPrincipal principal, Moderator moderator)
 		=> AddModerator(new PrincipalUser(principal), moderator);
+
 	public Result<Moderator> AddModerator(PrincipalUser user, Moderator moderator)
 	{
 		if (CanChangePrivilegedUsers(user))

@@ -1,5 +1,6 @@
 ﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Web.Forums.Infrastructure.EntityFrameworkCore;
 
@@ -25,35 +26,47 @@ public static class DependencyInjection__ForumsInfrastructure
 	}
 
 
-	public static void AddForumInfrastructureUseMariaDb(this WebApplicationBuilder builder, string connectionString)
+	public static void AddForumInfrastructureUseMariaDb(this IServiceCollection services, IConfiguration configuration)
 	{
-		builder.Services.AddForumInfrastructureInternal();
+		services.AddForumInfrastructureInternal();
 
-		builder.Services.AddDbContext<ForumDbContext>(options =>
+		string ForumConnectionStringName = "MariaDbConnectionForum";
+		var connectionString = configuration.GetConnectionString(ForumConnectionStringName)
+			?? throw new InvalidOperationException($"Connection string '{ForumConnectionStringName}' not found.");
+
+		services.AddDbContext<ForumDbContext>(options =>
 		{
 			options.UseMySql(connectionString, ServerVersion.Create(new Version(11, 3, 2), ServerType.MariaDb));
 		});
 
 	}
 
-	public static void AddForumInfrastructureUseMySql(this WebApplicationBuilder builder, string connectionString)
+	public static void AddForumInfrastructureUseMySql(this IServiceCollection services, IConfiguration configuration)
 	{
-		builder.Services.AddForumInfrastructureInternal();
+		services.AddForumInfrastructureInternal();
 
-		builder.Services.AddDbContext<ForumDbContext>(options =>
+		string ForumConnectionStringName = "MariaDbConnectionForum";
+		var connectionString = configuration.GetConnectionString(ForumConnectionStringName)
+			?? throw new InvalidOperationException($"Connection string '{ForumConnectionStringName}' not found.");
+
+		services.AddDbContext<ForumDbContext>(options =>
 		{
 			options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 		});
 
 	}
 
-	public static void AddForumInfrastructureUseNpgsql(this WebApplicationBuilder builder, string connectionString)
+	public static void AddForumInfrastructureUseNpgsql(this IServiceCollection services, IConfiguration configuration)
 	{
-		builder.Services.AddForumInfrastructureInternal();
+		services.AddForumInfrastructureInternal();
 
 		AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-		builder.Services.AddDbContext<ForumDbContext>(options => options
+		string ForumConnectionStringName = "PsqlConnectionForum";
+		var connectionString = configuration.GetConnectionString(ForumConnectionStringName)
+			?? throw new InvalidOperationException($"Connection string '{ForumConnectionStringName}' not found.");
+
+		services.AddDbContext<ForumDbContext>(options => options
 			.UseNpgsql(connectionString));
 	}
 

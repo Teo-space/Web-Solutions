@@ -2,11 +2,11 @@
 
 public sealed partial class Post
 {
-	public IDType TopicId { get; set; }
+	public IdentityType TopicId { get; set; }
 	public Topic Topic { get; set; }
 
 
-	public IDType PostId { get; set; }
+	public IdentityType PostId { get; set; }
 
 
 	public string Text { get; set; }

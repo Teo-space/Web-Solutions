@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Topics.ReadModel;
 
 
-public record QueryTopicDisplay(IDType TopicId) : IRequest<Result<Topic>>
+public record QueryTopicDisplay(IdentityType TopicId) : IRequest<Result<Topic>>
 {
 	public class Validator : AbstractValidator<QueryTopicDisplay>
 	{

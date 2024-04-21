@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Topics.WriteModel;
 
 
-public record CommandTopicOpen(IDType TopicId, string comment) : IRequest<Result<Topic>>
+public record CommandTopicOpen(IdentityType TopicId, string comment) : IRequest<Result<Topic>>
 {
 	public class Validator : AbstractValidator<CommandTopicOpen>
 	{
@@ -32,11 +32,13 @@ public record CommandTopicOpen(IDType TopicId, string comment) : IRequest<Result
 			{
 				return Results.NotFoundById<Topic>(request.TopicId);
 			}
+
 			var result = Topic.Open(userAccessor.GetUserThrowIfIsNull(), request.comment);
 			if (result.Success)
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

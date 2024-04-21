@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace Web.Forums.UseCases.Forums.ReadModel;
+﻿namespace Web.Forums.UseCases.Forums.ReadModel;
 
 
-public record QueryForumDisplay(IDType ForumId) : IRequest<Result<Forum>>
+public record QueryForumDisplay(IdentityType ForumId) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<QueryForumDisplay>
 	{
@@ -22,15 +20,16 @@ public record QueryForumDisplay(IDType ForumId) : IRequest<Result<Forum>>
 		{
 			var forum = await forumDbContext.Forums
 				.AsNoTracking()
+				.AsSplitQuery()
 				.Where(f => f.ForumId == request.ForumId)
+				.Include(x => x.Curators)
+				.Include(x => x.Moderators)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)
 				.Include(s => s.Forums.OrderBy(x => x.CreatedBy.At))
 				.Include(s => s.Announcements.OrderBy(x => x.CreatedBy.At))
-				.Include(s => s.Topics
-					.OrderByDescending(x => x.RepliedBy.At)
-					.Take(Forum.TopicsPageSize))
+				.Include(s => s.Topics.OrderByDescending(x => x.RepliedBy.At).Take(Forum.TopicsPageSize))
 				.FirstOrDefaultAsync(cancellationToken);
 
 			if (forum is null)

@@ -10,8 +10,8 @@ public class EntityConfigurationForum : IEntityTypeConfiguration<Forum>
 		builder.ToTable("Forums");
 
 
-		builder.HasIndex(x => x.ForumId).IsDescending(true).IsClustered(true);
-		builder.Property(x => x.ForumId);
+		builder.HasKey(x => x.ForumId);
+		builder.Property(x => x.ForumId);//.ValueGeneratedOnAdd();
 
 		builder.HasIndex(x => x.ParentForumId);
 		builder.Property(x => x.ParentForumId);
@@ -19,28 +19,28 @@ public class EntityConfigurationForum : IEntityTypeConfiguration<Forum>
 		builder.HasIndex(x => x.Title).IsUnique();
 		builder.Property(x => x.Title).HasMaxLength(50).IsConcurrencyToken();
 
-		builder.Property(x => x.Description).HasMaxLength(100).IsConcurrencyToken();
+		builder.Property(x => x.Description).HasMaxLength(100);
 
 
 		{
 			builder.OwnsOne(f => f.CreatedBy, owned =>
 			{
 				owned.Property(x => x.UserId).IsRequired();
-				owned.Property(x => x.UserName).IsRequired();
+				owned.Property(x => x.UserName).IsRequired().HasMaxLength(100);
 				owned.Property(x => x.At).IsRequired();
 			});
 
 			builder.OwnsOne(f => f.UpdatedBy, owned =>
 			{
 				owned.Property(x => x.UserId).IsRequired();
-				owned.Property(x => x.UserName).IsRequired();
+				owned.Property(x => x.UserName).IsRequired().HasMaxLength(100);
 				owned.Property(x => x.At).IsRequired();
 			});
 
 			builder.OwnsOne(f => f.RepliedBy, owned =>
 			{
 				owned.Property(x => x.UserId).IsRequired();
-				owned.Property(x => x.UserName).IsRequired();
+				owned.Property(x => x.UserName).IsRequired().HasMaxLength(100);
 				owned.Property(x => x.At).IsRequired();
 			});
 		}
@@ -48,19 +48,19 @@ public class EntityConfigurationForum : IEntityTypeConfiguration<Forum>
 
 
 		builder.HasMany(f => f.Edits).WithOne()
-			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.OwnerId)
+			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ForumId)
 			.OnDelete(DeleteBehavior.NoAction);
 
 		builder.HasMany(f => f.Moderations).WithOne()
-			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.OwnerId)
+			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ForumId)
 			.OnDelete(DeleteBehavior.NoAction);
 
 		builder.HasMany(f => f.Curators).WithOne()
-			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ParentId)
+			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ForumId)
 			.OnDelete(DeleteBehavior.NoAction);
 
 		builder.HasMany(f => f.Moderators).WithOne()
-			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ParentId)
+			.HasPrincipalKey(f => f.ForumId).HasForeignKey(e => e.ForumId)
 			.OnDelete(DeleteBehavior.NoAction);
 
 

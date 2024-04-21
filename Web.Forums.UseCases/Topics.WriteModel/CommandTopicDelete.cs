@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Topics.WriteModel;
 
 
-public record CommandTopicDelete(IDType TopicId, string comment) : IRequest<Result<Topic>>
+public record CommandTopicDelete(IdentityType TopicId, string comment) : IRequest<Result<Topic>>
 {
 	public class Validator : AbstractValidator<CommandTopicDelete>
 	{
@@ -32,11 +32,13 @@ public record CommandTopicDelete(IDType TopicId, string comment) : IRequest<Resu
 			{
 				return Results.NotFoundById<Topic>(request.TopicId);
 			}
+
 			var result = Topic.Delete(userAccessor.GetUserThrowIfIsNull(), request.comment);
 			if (result.Success)
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

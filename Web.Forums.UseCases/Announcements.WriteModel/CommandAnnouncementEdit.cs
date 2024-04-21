@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Announcements.WriteModel;
 
 
-public record CommandAnnouncementEdit(IDType AnnouncementId, string Title, string Text) : IRequest<Result<Announcement>>
+public record CommandAnnouncementEdit(IdentityType AnnouncementId, string Title, string Text) : IRequest<Result<Announcement>>
 {
 	public class Validator : AbstractValidator<CommandAnnouncementEdit>
 	{
@@ -39,11 +39,13 @@ public record CommandAnnouncementEdit(IDType AnnouncementId, string Title, strin
 			{
 				return Results.NotFoundById<Announcement>(request.AnnouncementId);
 			}
+
 			var result = Announcement.Edit(userAccessor.GetUserThrowIfIsNull(), request.Title, request.Text);
 			if (result.Success)
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

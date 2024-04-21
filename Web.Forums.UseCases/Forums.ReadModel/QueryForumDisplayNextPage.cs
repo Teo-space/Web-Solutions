@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.ReadModel;
 
 
-public record QueryForumDisplayNextPage(IDType ForumId, DateTime Replied) : IRequest<Result<Forum>>
+public record QueryForumDisplayNextPage(IdentityType ForumId, DateTime Replied) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<QueryForumDisplayNextPage>
 	{
@@ -20,14 +20,16 @@ public record QueryForumDisplayNextPage(IDType ForumId, DateTime Replied) : IReq
 		{
 			var forum = await forumDbContext.Forums
 				.AsNoTracking()
+				.AsSplitQuery()
 				.Where(f => f.ForumId == request.ForumId)
+				.Include(x => x.Curators)
+				.Include(x => x.Moderators)
 				.Include(x => x.ParentForum)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Curators)
 				.Include(x => x.ParentForum).ThenInclude(x => x.Moderators)
-				.Include(s => s.Forums)
-				.Include(s => s.Announcements)
-				.Include(s => s.Topics
-					.OrderByDescending(x => x.RepliedBy.At)
+				.Include(s => s.Forums.OrderByDescending(x => x.CreatedBy.At))
+				.Include(s => s.Announcements.OrderByDescending(x => x.CreatedBy.At))
+				.Include(s => s.Topics.OrderByDescending(x => x.RepliedBy.At)
 					.Where(x => x.RepliedBy.At < request.Replied)
 					.Take(Forum.TopicsPageSize))
 				.FirstOrDefaultAsync(cancellationToken);

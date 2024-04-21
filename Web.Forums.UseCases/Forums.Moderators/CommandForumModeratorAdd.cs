@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Forums.Moderators;
 
 
-public record CommandForumModeratorAdd(IDType ForumId, Guid UserId, string UserName) : IRequest<Result<Forum>>
+public record CommandForumModeratorAdd(IdentityType ForumId, Guid UserId, string UserName) : IRequest<Result<Forum>>
 {
 	public class Validator : AbstractValidator<CommandForumModeratorAdd>
 	{

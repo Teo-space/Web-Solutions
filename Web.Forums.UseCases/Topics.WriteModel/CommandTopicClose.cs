@@ -1,7 +1,7 @@
 ﻿namespace Web.Forums.UseCases.Topics.WriteModel;
 
 
-public record CommandTopicClose(IDType TopicId, string comment) : IRequest<Result<Topic>>
+public record CommandTopicClose(IdentityType TopicId, string comment) : IRequest<Result<Topic>>
 {
 	public class Validator : AbstractValidator<CommandTopicClose>
 	{
@@ -38,6 +38,7 @@ public record CommandTopicClose(IDType TopicId, string comment) : IRequest<Resul
 			{
 				await dbContext.SaveChangesAsync();
 			}
+
 			return result;
 		}
 	}

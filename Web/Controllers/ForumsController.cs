@@ -23,7 +23,7 @@ public class ForumsController
 	//00000000000000000000000000
 
 	public Task<IActionResult> Index(QueryForumDisplay request) 
-		=> ForumDisplay(request);
+		=> ForumDisplay(request with { ForumId = IdentityType.Empty });
 
 	public async Task<IActionResult> ForumDisplay(QueryForumDisplay request) 
 		=> View("ForumDisplay", await mediatr.Send(request));
@@ -195,7 +195,7 @@ public class ForumsController
 		{
 			return View(Results.NotFound<Forum>(request.ForumId.ToString()));
 		}
-		var result = forum.AddCurator(User, Curator.Create(forum.ForumId, request.UserId, request.UserName));
+		var result = forum.AddCurator(User, Curator.Create(forum, request.UserId, request.UserName));
 		if (result.Success)
 		{
 			await forumDbContext.SaveChangesAsync();
@@ -237,8 +237,8 @@ public class ForumsController
 		{
 			return View(Results.NotFound<Forum>(request.ForumId.ToString()));
 		}
-		var result = forum.AddModerator(User, new Forums.Domain.Owned.Moderator(
-			forum.ForumId, Ulid.NewUlid(), request.UserId, request.UserName));
+		var result = forum.AddModerator(User, Moderator.Create(forum, request.UserId, request.UserName));
+
 		if (result.Success)
 		{
 			await forumDbContext.SaveChangesAsync();
