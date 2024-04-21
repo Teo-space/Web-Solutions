@@ -32,7 +32,6 @@ public static class ForumInitializer
 	}
 
 
-
 	static string Title(int i) => $"Lorem ipsum [{i}].{Ulid.NewUlid().ToString()}";
 	static string Text => 
 		$"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do {Ulid.NewUlid().ToString()}";
@@ -45,7 +44,7 @@ public static class ForumInitializer
 		forumDbContext.Add(Root);
 
 
-		for (int mi = 0; mi< 8;mi++)
+		for (int mi = 0; mi < 10; mi++)
 		{
 			var mainForumResult = Root.CreateForum(User, Title(mi), Text);
 			if(!mainForumResult.Success)
@@ -59,7 +58,7 @@ public static class ForumInitializer
 			mainForum.AddCurator(User, new Curator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 			mainForum.AddModerator(User, new Moderator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 
-			for (int ti = 0; ti < 10; ti++)
+			for (int ti = 0; ti < 100; ti++)
 			{
 				var thematicForumResult = mainForum.CreateForum(User, Title(ti), Text);
 				if (!thematicForumResult.Success)
@@ -72,7 +71,7 @@ public static class ForumInitializer
 				thematicForum.AddModerator(User, new Moderator(mainForum.ForumId, Ulid.NewUlid(), User.UserId, User.UserName));
 				forumDbContext.Add(thematicForum);
 
-				for (int tai = 0; tai< 5; tai++)
+				for (int tai = 0; tai< 10; tai++)
 				{
 					var ta = thematicForum.CreateAnnouncement(User, Title(tai), Text);
 					if (!ta.Success)
@@ -83,7 +82,7 @@ public static class ForumInitializer
 					forumDbContext.Add(ta.Value);
 				}
 
-				for (int tti = 0; tti < 50; tti++)
+				for (int tti = 0; tti < 100; tti++)
 				{
 					var tt = thematicForum.CreateTopic(User, Title(tti), Text);
 					if (!tt.Success)
@@ -94,7 +93,7 @@ public static class ForumInitializer
 				}
 
 
-				for (int si = 0; si < 10; si++)
+				for (int si = 0; si < 100; si++)
 				{
 					var subForum = thematicForum.CreateForum(User, Title(si), Text).Value;
 					subForum.Edit(User, Title(mi), Text);
@@ -108,7 +107,7 @@ public static class ForumInitializer
 
 					if (mi==0 && si == 0)
 					{
-						for (int tti = 0; tti < 1000; tti++)
+						for (int tti = 0; tti < 10000; tti++)
 						{
 							var ts = subForum.CreateTopic(User, Title(tti), Text).Value;
 							forumDbContext.Add(ts);

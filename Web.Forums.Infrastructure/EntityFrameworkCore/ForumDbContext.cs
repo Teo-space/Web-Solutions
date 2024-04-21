@@ -10,14 +10,14 @@ public class ForumDbContext : DbContext
 	{
 		Database.EnsureCreated();
 	}
-
+/*
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		optionsBuilder.EnableDetailedErrors();
 		optionsBuilder.EnableSensitiveDataLogging();
 		optionsBuilder.LogTo(Console.WriteLine, minimumLevel: Microsoft.Extensions.Logging.LogLevel.Information);
 	}
-
+*/
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
 	{
 		configurationBuilder.Properties<Ulid>().HaveConversion<UlidToGuidConvertor>();

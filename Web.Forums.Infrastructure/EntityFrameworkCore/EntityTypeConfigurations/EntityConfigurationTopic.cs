@@ -24,36 +24,21 @@ public class EntityConfigurationTopic : IEntityTypeConfiguration<Topic>
 		{
 			builder.OwnsOne(f => f.CreatedBy, owned =>
 			{
-				owned.HasIndex(x => x.UserId);
 				owned.Property(x => x.UserId).IsRequired();
-
-				owned.HasIndex(x => x.UserName);
 				owned.Property(x => x.UserName).IsRequired();
-
-				owned.HasIndex(x => x.At);
 				owned.Property(x => x.At).IsRequired();
 			});
 
 			builder.OwnsOne(f => f.UpdatedBy, owned =>
 			{
-				owned.HasIndex(x => x.UserId);
 				owned.Property(x => x.UserId).IsRequired();
-
-				owned.HasIndex(x => x.UserName);
 				owned.Property(x => x.UserName).IsRequired();
-
-				owned.HasIndex(x => x.At);
 				owned.Property(x => x.At).IsRequired();
 			});
 			builder.OwnsOne(f => f.RepliedBy, owned =>
 			{
-				owned.HasIndex(x => x.UserId);
 				owned.Property(x => x.UserId).IsRequired();
-
-				owned.HasIndex(x => x.UserName);
 				owned.Property(x => x.UserName).IsRequired();
-
-				owned.HasIndex(x => x.At);
 				owned.Property(x => x.At).IsRequired();
 			});
 		}

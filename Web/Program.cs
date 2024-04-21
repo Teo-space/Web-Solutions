@@ -23,10 +23,11 @@ var builder = WebApplication.CreateBuilder(args);
         builder.AddRootUserInitializer();
     }
     {
-		var connectionString = builder.Configuration.GetConnectionString("MariaDbConnectionForum")
-			?? throw new InvalidOperationException("Connection string 'MariaDbConnectionForum' not found.");
+		string ForumConnectionStringName = "MariaDbConnectionForum";
+		var connectionString = builder.Configuration.GetConnectionString(ForumConnectionStringName)
+			?? throw new InvalidOperationException($"Connection string '{ForumConnectionStringName}' not found.");
 
-		builder.AddForumInfrastructure(connectionString);
+		builder.AddForumInfrastructureUseMariaDb(connectionString);
 		builder.AddForumUseCases();
 	}
 }
